@@ -5,6 +5,7 @@ var nodesArray = [
         label: "Hauptknoten",
         group: "source2",
 
+
     },
     {
         id: "mainNode:generalAwarenessRaising",
@@ -112,28 +113,7 @@ var nodesArray = [
 ];
 nodes = new vis.DataSet(nodesArray);
 
-var edgesArray = [
-    {
-        from: "mainNode:middle",
-        to: "mainNode:mobilityServices",
-    },
-    {
-        from: "mainNode:middle",
-        to: "mainNode:publicTransport",
-    },
-    {
-        from: "mainNode:middle",
-        to: "mainNode:employment",
-    },
-    {
-        from: "mainNode:middle",
-        to: "mainNode:interestGroups",
-    },
-    {
-        from: "mainNode:middle",
-        to: "mainNode:publicCampaigns",
-    },
-];
+var edgesArray = [];
 edges = new vis.DataSet(edgesArray);
 
 // init edges
@@ -158,12 +138,19 @@ var data = {
     edges: edges
 };
 var options = {
+    physics: {
+        barnesHut:
+            {
+                avoidOverlap: 0.1
+            }
+    },
     nodes: {
         shape: 'circle',
         font: {
             //size: 12,
             color: '#ffffff'
         },
+
         borderWidth: 2,
         scaling: {
             label: {
@@ -173,7 +160,7 @@ var options = {
             }
         },
         physics: true,
-        widthConstraint: 100,
+        widthConstraint: 90,
 
     },
     edges: {
