@@ -138,16 +138,17 @@ edges = new vis.DataSet(edgesArray);
 
 // init edges
 function createMainEdges() {
+    // erstellt für jeden Node eine Verbindung mit der MainNode
     nodesArray.forEach(node => {
+        if (node.id === "mainNode:middle") return;
         edges.add({
             from: "mainNode:middle",
-            to: "mainNode:" + node.id,
+            to: node.id,
         })
     })
     console.log(edges);
 
 }
-
 
 // create a network at div
 var container = document.querySelector('.network');
@@ -157,7 +158,6 @@ var data = {
     edges: edges
 };
 var options = {
-    mass: 1,
     nodes: {
         shape: 'circle',
         font: {
