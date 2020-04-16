@@ -143,8 +143,7 @@ var options = {
             {
                 //todo: trial and error
                 avoidOverlap: 0.5,
-
-
+                springLength: 300,
             }
     },
     nodes: {
