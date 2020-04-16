@@ -112,7 +112,6 @@ var nodesArray = [
 
 ];
 nodes = new vis.DataSet(nodesArray);
-
 var edgesArray = [];
 edges = new vis.DataSet(edgesArray);
 
@@ -138,10 +137,14 @@ var data = {
     edges: edges
 };
 var options = {
+    layout: {randomSeed: 2},
     physics: {
         barnesHut:
             {
-                avoidOverlap: 0.1
+                //todo: trial and error
+                avoidOverlap: 0.5,
+
+
             }
     },
     nodes: {
@@ -150,7 +153,7 @@ var options = {
             //size: 12,
             color: '#ffffff'
         },
-
+        chosen: false,
         borderWidth: 2,
         scaling: {
             label: {
@@ -161,7 +164,6 @@ var options = {
         },
         physics: true,
         widthConstraint: 90,
-
     },
     edges: {
         width: 2,
