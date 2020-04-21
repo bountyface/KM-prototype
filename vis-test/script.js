@@ -120,12 +120,14 @@ function createMainEdges() {
     // erstellt für jeden Node eine Verbindung mit der MainNode
     nodesArray.forEach(node => {
         if (node.id === "mainNode:middle") return;
+
         edges.add({
             from: "mainNode:middle",
             to: node.id,
         })
+
+
     })
-    console.log(edges);
 
 }
 
@@ -142,8 +144,8 @@ var options = {
         barnesHut:
             {
                 //todo: trial and error
-                avoidOverlap: 0.5,
-                springLength: 300,
+                //avoidOverlap: 0.5,
+                //springLength: 250,
             }
     },
     nodes: {
@@ -166,11 +168,12 @@ var options = {
     },
     edges: {
         width: 2,
+        length: 250,
     },
     interaction: {
-        dragNodes: false,// do not allow dragging nodes
-        zoomView: false, // do not allow zooming
-        dragView: false  // do not allow dragging
+        //dragNodes: false,// do not allow dragging nodes
+        //zoomView: false, // do not allow zooming
+        //dragView: false  // do not allow dragging
     },
     groups: {
         "source1": {
@@ -209,10 +212,6 @@ createMainEdges();
 // Bindings
 const addButton = document.getElementById('add');
 addButton.addEventListener('click', () => {
-    /* todo:    - refresh the network with an updated array of nodes
-                - give every node a corresponding spot (x,y)
-                - give every node an edge to the main node
-     */
     const id = Math.random();
     nodes.add({
             id: "mainNode:addedNode" + id,
@@ -228,6 +227,28 @@ addButton.addEventListener('click', () => {
 
 });
 
+const addToPublicTransportButton = document.getElementById('addToPublicTransport');
+let counter = 1;
+addToPublicTransportButton.addEventListener('click', () => {
+    const nodeposition = network.getPosition("mainNode:publicTransport")
+
+    const id = Math.random();
+    nodes.add({
+            id: "subNode:addedToPublicTransport" + id,
+            label: "Subnode " + counter,
+            group: "source1",
+            x: nodeposition.x,
+            y: nodeposition.y
+
+        },
+    );
+    edges.add({
+        from: "mainNode:publicTransport",
+        to: "subNode:addedToPublicTransport" + id,
+    },)
+    network.focus("mainNode:publicTransport", {animation: true})
+    counter = counter + 1;
+});
 
 // Interaction
 network.on('click', (obj) => {
