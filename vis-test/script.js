@@ -1,5 +1,39 @@
+const articles = [
+    {
+        id: 1,
+        tags: ["publicTransport"]
+    },
+    {
+        id: 2,
+        tags: ["publicTransport", "mobilityServices"]
+    }
+]
+console.log(generalAwarenessRaising)
 // init nodes
-var nodesArray = [
+// test array @todo - write function that takes existing tags and automatically generate array from them
+
+nodesArray = [];
+
+function createNodesArray() {
+    // center node
+    nodesArray.push({
+        id: "mainNode:middle",
+        label: "Hauptknoten",
+        group: "source2",
+    })
+
+    // every other node around the center node
+    tagsArray.forEach(tag => {
+        nodesArray.push({
+            id: "mainNode:" + tag.id,
+            label: tag.label,
+            group: "source1"
+        })
+    })
+}
+
+/*
+nodesArray = [
     {
         id: "mainNode:middle",
         label: "Hauptknoten",
@@ -8,19 +42,19 @@ var nodesArray = [
 
     },
     {
-        id: "mainNode:generalAwarenessRaising",
+        id: "mainNode:" + generalAwarenessRaising,
         label: "General Awareness Raising",
         group: "source1",
 
     },
     {
-        id: "mainNode:genderDrivenDesign",
+        id: "mainNode:" + genderDrivenDesign,
         label: "Gender Driven Design",
         group: "source1",
 
     },
     {
-        id: "mainNode:mobilityServices",
+        id: "mainNode:" + mobilityServices,
         label: "Mobility Services",
         group: "source1",
 
@@ -111,6 +145,9 @@ var nodesArray = [
     },
 
 ];
+*/
+createNodesArray()
+
 nodes = new vis.DataSet(nodesArray);
 var edgesArray = [];
 edges = new vis.DataSet(edgesArray);
@@ -125,8 +162,6 @@ function createMainEdges() {
             from: "mainNode:middle",
             to: node.id,
         })
-
-
     })
 
 }
