@@ -25,11 +25,25 @@ function createNodesArray() {
     // every other node around the center node
     tagsArray.forEach(tag => {
         nodesArray.push({
-            id: "mainNode:" + tag.id,
+            id: tag.id,
             label: tag.label,
             group: "source1"
         })
     })
+}
+
+
+function createMainEdges() {
+    // erstellt für jeden Node eine Verbindung mit der MainNode
+    nodesArray.forEach(node => {
+        if (node.id === "mainNode:middle") return;
+
+        edges.add({
+            from: "mainNode:middle",
+            to: node.id,
+        })
+    })
+
 }
 
 /*
@@ -152,19 +166,6 @@ nodes = new vis.DataSet(nodesArray);
 var edgesArray = [];
 edges = new vis.DataSet(edgesArray);
 
-// init edges
-function createMainEdges() {
-    // erstellt für jeden Node eine Verbindung mit der MainNode
-    nodesArray.forEach(node => {
-        if (node.id === "mainNode:middle") return;
-
-        edges.add({
-            from: "mainNode:middle",
-            to: node.id,
-        })
-    })
-
-}
 
 // create a network at div
 var container = document.querySelector('.network');
@@ -239,8 +240,10 @@ var options = {
 
 };
 
+// create network
 var network = new vis.Network(container, data, options);
 
+// init edges
 createMainEdges();
 
 
@@ -288,4 +291,12 @@ addToPublicTransportButton.addEventListener('click', () => {
 // Interaction
 network.on('click', (obj) => {
     document.querySelector('.report').innerHTML = obj.nodes[0]
+
+    if (obj.nodes.length) { // Did the click occur on a node?
+        const clickedNodeId = obj.nodes[0]; // The id of the node clicked
+        
+        console.log('clicked node:', clickedNodeId);
+    }
+
+
 });
