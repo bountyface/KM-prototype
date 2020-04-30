@@ -268,7 +268,7 @@ addButton.addEventListener('click', () => {
 const addToPublicTransportButton = document.getElementById('addToPublicTransport');
 let counter = 1;
 addToPublicTransportButton.addEventListener('click', () => {
-    const nodeposition = network.getPosition("mainNode:publicTransport")
+    const nodeposition = network.getPosition("publicTransport")
 
     const id = Math.random();
     nodes.add({
@@ -288,15 +288,58 @@ addToPublicTransportButton.addEventListener('click', () => {
     counter = counter + 1;
 });
 
+function expandNode(clickedNodeId) {
+    console.log("clickedNodeId: ", clickedNodeId)
+    // @todo:   - cycle through articlesArray
+    //          - take every article that has the nodeId in its tags
+    //          - make a subnote for that article
+    //          - add each subnote to the network; starting x,y according to parent node
+    //          - draw edges, to parent and to other tags
+
+    // position of the clicked node
+    const nodeposition = network.getPosition(clickedNodeId)
+    // temporary Array
+    let subnodeArray = []
+
+    // cycle through articles array, find every article with tag of clicked node
+    articlesArray.forEach(article => {
+        // save every article belonging to the clickedNodeId to the subnodeArray
+        article.tags.find(tag => tag === clickedNodeId) ? subnodeArray.push(article) : null;
+    })
+    console.log("subnodeArray", subnodeArray)
+
+    // iterate through subnodeArray
+    subnodeArray.forEach(subnode => {
+        // make a node for each article in subnodeArray
+        nodes.add({
+                id: subnode.id,
+                label: subnode.title,
+                group: "source1",
+                x: nodeposition.x,
+                y: nodeposition.y
+            },
+        );
+
+        // make an edge from the clicked node to its subnodes
+        edges.add({
+            from: clickedNodeId,
+            to: subnode.id
+        },)
+    })
+
+    // set focus to clicked Node
+    network.focus(clickedNodeId, {animation: true})
+
+    // todo: function, that gives multiple edges to other nodes, according to tags of articles
+}
+
 // Interaction
 network.on('click', (obj) => {
     document.querySelector('.report').innerHTML = obj.nodes[0]
 
     if (obj.nodes.length) { // Did the click occur on a node?
         const clickedNodeId = obj.nodes[0]; // The id of the node clicked
-        
-        console.log('clicked node:', clickedNodeId);
+        expandNode(clickedNodeId);
     }
-
 
 });
