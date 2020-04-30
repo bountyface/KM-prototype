@@ -1,18 +1,6 @@
-const articles = [
-    {
-        id: 1,
-        tags: ["publicTransport"]
-    },
-    {
-        id: 2,
-        tags: ["publicTransport", "mobilityServices"]
-    }
-]
-console.log(generalAwarenessRaising)
-// init nodes
-// test array @todo - write function that takes existing tags and automatically generate array from them
-
 nodesArray = [];
+
+// init nodes
 
 function createNodesArray() {
     // center node
@@ -290,11 +278,7 @@ addToPublicTransportButton.addEventListener('click', () => {
 
 function expandNode(clickedNodeId) {
     console.log("clickedNodeId: ", clickedNodeId)
-    // @todo:   - cycle through articlesArray
-    //          - take every article that has the nodeId in its tags
-    //          - make a subnote for that article
-    //          - add each subnote to the network; starting x,y according to parent node
-    //          - draw edges, to parent and to other tags
+    // todo: make edge to parent of selected node longer
 
     // position of the clicked node
     const nodeposition = network.getPosition(clickedNodeId)
@@ -310,6 +294,9 @@ function expandNode(clickedNodeId) {
 
     // iterate through subnodeArray
     subnodeArray.forEach(subnode => {
+        // return, if node is already on the network
+        if (network.findNode(subnode.id).length) return;
+
         // make a node for each article in subnodeArray
         nodes.add({
                 id: subnode.id,
@@ -330,7 +317,6 @@ function expandNode(clickedNodeId) {
     // set focus to clicked Node
     network.focus(clickedNodeId, {animation: true})
 
-    // todo: function, that gives multiple edges to other nodes, according to tags of articles
 }
 
 // Interaction
@@ -340,6 +326,7 @@ network.on('click', (obj) => {
     if (obj.nodes.length) { // Did the click occur on a node?
         const clickedNodeId = obj.nodes[0]; // The id of the node clicked
         expandNode(clickedNodeId);
+        // todo: function, that gives multiple edges to other nodes, according to tags of articles
     }
 
 });
