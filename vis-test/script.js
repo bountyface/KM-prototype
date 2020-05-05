@@ -30,9 +30,11 @@ function createMainEdges() {
             from: "mainNode:middle",
             to: node.id,
         })
+
     })
 
 }
+
 
 /*
 nodesArray = [
@@ -224,6 +226,21 @@ var options = {
                 y: 6
             }
         },
+        "source3": {
+            font: {
+                color: "#000000"
+            },
+            color: {
+                background: '#ffbf00',
+                border: 'navy'
+            },
+            shadow: {
+                enabled: true,
+                color: 'rgba(0,0,0,0.5)',
+                x: 6,
+                y: 6
+            }
+        },
     }
 
 };
@@ -276,9 +293,25 @@ addToPublicTransportButton.addEventListener('click', () => {
     counter = counter + 1;
 });
 
+function growParentEdgeOfNode(nodeId) {
+    const edgeId = network.getConnectedEdges(nodeId)
+    console.log("nodeId", nodeId)
+    console.log("edgeId", edgeId)
+    edges.update({
+        id: edgeId[0],
+        from: "mainNode:middle",
+        to: nodeId,
+        color: {
+            color: '#ff0000',
+        }
+    })
+
+}
+
 function expandNode(clickedNodeId) {
     console.log("clickedNodeId: ", clickedNodeId)
     // todo: make edge to parent of selected node longer
+    growParentEdgeOfNode(clickedNodeId)
 
     // position of the clicked node
     const nodeposition = network.getPosition(clickedNodeId)
@@ -301,7 +334,7 @@ function expandNode(clickedNodeId) {
         nodes.add({
                 id: subnode.id,
                 label: subnode.title,
-                group: "source1",
+                group: "source3",
                 x: nodeposition.x,
                 y: nodeposition.y
             },
