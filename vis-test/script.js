@@ -170,7 +170,7 @@ var options = {
         barnesHut:
             {
                 //todo: trial and error
-                //avoidOverlap: 0.5,
+                //avoidOverlap: 0.1,
                 //springLength: 250,
             }
     },
@@ -183,9 +183,11 @@ var options = {
         chosen: false,
         borderWidth: 2,
         scaling: {
+            min: 50,
+            max: 80,
             label: {
                 min: 12,
-                max: 15,
+                max: 17,
                 enabled: true
             }
         },
@@ -195,6 +197,7 @@ var options = {
     edges: {
         width: 2,
         length: 250,
+
     },
     interaction: {
         //dragNodes: false,// do not allow dragging nodes
@@ -212,7 +215,8 @@ var options = {
                 color: 'rgba(0,0,0,0.5)',
                 x: 6,
                 y: 6
-            }
+            },
+            value: 5,
         },
         "source2": {
             color: {
@@ -224,7 +228,9 @@ var options = {
                 color: 'rgba(0,0,0,0.5)',
                 x: 6,
                 y: 6
-            }
+            },
+            value: 10
+
         },
         "source3": {
             font: {
@@ -239,7 +245,8 @@ var options = {
                 color: 'rgba(0,0,0,0.5)',
                 x: 6,
                 y: 6
-            }
+            },
+            value: 5
         },
     }
 
@@ -303,7 +310,9 @@ function growParentEdgeOfNode(nodeId) {
         to: nodeId,
         color: {
             color: '#ff0000',
-        }
+        },
+        length: 600,
+        physics: false
     })
 
 }
