@@ -189,10 +189,12 @@ var options = {
             color: '#ffffff'
         },
         chosen: false,
+
         borderWidth: 2,
         scaling: {
             min: 50,
             max: 80,
+
             label: {
                 min: 12,
                 max: 17,
@@ -226,11 +228,11 @@ var options = {
                 y: 6
             },
             value: 5,
-            
+
         },
         "source2": {
             color: {
-                background: 'rgba(42,228,255,0.5)',
+                background: 'rgba(42,228,255,1)',
                 border: 'navy'
             },
             shadow: {
@@ -261,7 +263,8 @@ var options = {
                 x: 6,
                 y: 6
             },
-            value: 2,
+            // if changed, sizing error onclick occurs
+            //value: 2,
 
         },
     }
