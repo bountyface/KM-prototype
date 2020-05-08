@@ -8,6 +8,7 @@ function createNodesArray() {
         id: "mainNode:middle",
         label: "Hauptknoten",
         group: "source2",
+        value: 10
     })
 
     // every other node around the center node
@@ -167,13 +168,20 @@ var data = {
 var options = {
     layout: {randomSeed: 2},
     physics: {
-        barnesHut:
+        barnesHut: {gravitationalConstant: -20000},
+        //stabilization: {enabled: false}
+
+        /*barnesHut:
             {
                 //todo: trial and error
                 //avoidOverlap: 0.1,
-                //springLength: 250,
-            }
+                springLength: 250,
+                gravitationalConstant: -10000,
+                springConstant: 1
+            }*/
+
     },
+
     nodes: {
         shape: 'circle',
         font: {
@@ -196,18 +204,19 @@ var options = {
     },
     edges: {
         width: 2,
-        length: 250,
+        //length: 250,
 
     },
     interaction: {
-        //dragNodes: false,// do not allow dragging nodes
+
+        dragNodes: false,// do not allow dragging nodes
         //zoomView: false, // do not allow zooming
         //dragView: false  // do not allow dragging
     },
     groups: {
         "source1": {
             color: {
-                background: 'red',
+                background: 'rgba(160,239,46,0.5)',
                 border: 'maroon'
             },
             shadow: {
@@ -217,10 +226,11 @@ var options = {
                 y: 6
             },
             value: 5,
+            
         },
         "source2": {
             color: {
-                background: 'blue',
+                background: 'rgba(42,228,255,0.5)',
                 border: 'navy'
             },
             shadow: {
@@ -229,7 +239,12 @@ var options = {
                 x: 6,
                 y: 6
             },
-            value: 10
+            value: 10,
+
+            interaction: {
+                dragNodes: false, // do not allow dragging node
+                //
+            }
 
         },
         "source3": {
@@ -246,7 +261,8 @@ var options = {
                 x: 6,
                 y: 6
             },
-            value: 5
+            value: 2,
+
         },
     }
 
@@ -299,11 +315,19 @@ addToPublicTransportButton.addEventListener('click', () => {
     network.focus("mainNode:publicTransport", {animation: true})
     counter = counter + 1;
 });
+const focusOnPublicTransportButton = document.getElementById("focusOnPublicTransport");
+focusOnPublicTransportButton.addEventListener('click', () => {
+    network.focus(publicTransport, {animation: true})
+})
+
+// --- end bindings
 
 function growParentEdgeOfNode(nodeId) {
     const edgeId = network.getConnectedEdges(nodeId)
-    console.log("nodeId", nodeId)
-    console.log("edgeId", edgeId)
+    console.log('node', nodes.get(nodeId))
+    if (nodeId === "mainNode:middle") return;
+    if (nodes.get(nodeId).group === "source3") return;
+
     edges.update({
         id: edgeId[0],
         from: "mainNode:middle",
@@ -311,9 +335,15 @@ function growParentEdgeOfNode(nodeId) {
         color: {
             color: '#ff0000',
         },
-        length: 600,
-        physics: false
+        length: 400,
+        physics: true
     })
+    nodes.update({
+        id: nodeId,
+        physics: true
+    })
+
+    network.focus(nodeId, {animation: true})
 
 }
 
@@ -357,7 +387,7 @@ function expandNode(clickedNodeId) {
     })
 
     // set focus to clicked Node
-    network.focus(clickedNodeId, {animation: true})
+    //network.focus(clickedNodeId, {animation: true})
 
 }
 
@@ -372,3 +402,15 @@ network.on('click', (obj) => {
     }
 
 });
+/*
+network.on("stabilizationIterationsDone", function () {
+    network.setOptions({
+        groups: {
+            "source1": {
+                physics: false
+            }
+        }
+    });
+});
+
+ */
