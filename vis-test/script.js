@@ -1,6 +1,9 @@
-nodesArray = [];
+const nodesArray = [];
+const edgeColor = 'rgb(255,203,0)'
+const selectEdgeColor = 'rgb(55,255,0)'
 
 // init nodes
+
 
 function createNodesArray() {
     // center node
@@ -8,7 +11,7 @@ function createNodesArray() {
         id: "mainNode:middle",
         label: "Hauptknoten",
         group: "source2",
-        value: 10
+
     })
 
     // every other node around the center node
@@ -36,127 +39,11 @@ function createMainEdges() {
 
 }
 
-
-/*
-nodesArray = [
-    {
-        id: "mainNode:middle",
-        label: "Hauptknoten",
-        group: "source2",
-
-
-    },
-    {
-        id: "mainNode:" + generalAwarenessRaising,
-        label: "General Awareness Raising",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:" + genderDrivenDesign,
-        label: "Gender Driven Design",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:" + mobilityServices,
-        label: "Mobility Services",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:publicTransport",
-        label: "Public Transport",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:employment",
-        label: "Employment",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:interestGroups",
-        label: "Interest Groups",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:publicCampaigns",
-        label: "Public Campaigns",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:training",
-        label: "Training",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:education",
-        label: "Education",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:informationPlatform",
-        label: "Information Platform",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:policy",
-        label: "Policy",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:safetyAndSecurity",
-        label: "Safety and Security",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:individualTransport",
-        label: "Individual Transport",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:employmentOfWomenInThePTSector",
-        label: "Employment of Women in the PT Sector",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:equalOpportunities",
-        label: "Equal Opportunities",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:barrierefreiheit",
-        label: "Barrierefreiheit",
-        group: "source1",
-
-    },
-    {
-        id: "mainNode:gendergerechteVerkehrsplanung",
-        label: "Gendergerechte Verkehrsplanung",
-        group: "source1",
-
-    },
-
-];
-*/
 createNodesArray()
 
 nodes = new vis.DataSet(nodesArray);
 var edgesArray = [];
 edges = new vis.DataSet(edgesArray);
-
 
 // create a network at div
 var container = document.querySelector('.network');
@@ -183,13 +70,12 @@ var options = {
     },
 
     nodes: {
-        shape: 'circle',
-        font: {
-            //size: 12,
-            color: '#ffffff'
-        },
         chosen: false,
 
+        font: {
+            //size: 12,
+            color: '#000000',
+        },
         borderWidth: 2,
         scaling: {
             min: 50,
@@ -201,12 +87,23 @@ var options = {
                 enabled: true
             }
         },
+        shape: 'circle',
         physics: true,
         widthConstraint: 90,
     },
     edges: {
         width: 2,
         //length: 250,
+        color: {
+            color: edgeColor,
+        },
+        chosen: {
+            label: false,
+            edge: (values, id, selected, hovering) => {
+                values.color = edgeColor;
+                values.width = 3
+            }
+        }
 
     },
     interaction: {
@@ -218,7 +115,7 @@ var options = {
     groups: {
         "source1": {
             color: {
-                background: 'rgba(160,239,46,0.5)',
+                background: 'rgb(175,234,100)',
                 border: 'maroon'
             },
             shadow: {
@@ -228,6 +125,7 @@ var options = {
                 y: 6
             },
             value: 5,
+
 
         },
         "source2": {
@@ -278,23 +176,7 @@ var network = new vis.Network(container, data, options);
 createMainEdges();
 
 
-// Bindings
-const addButton = document.getElementById('add');
-addButton.addEventListener('click', () => {
-    const id = Math.random();
-    nodes.add({
-            id: "mainNode:addedNode" + id,
-            label: "Added Node",
-            group: "source1",
-
-        },
-    );
-    edges.add({
-        from: "mainNode:middle",
-        to: "mainNode:addedNode" + id,
-    },)
-
-});
+// --- Bindings
 
 const addToPublicTransportButton = document.getElementById('addToPublicTransport');
 let counter = 1;
@@ -330,14 +212,17 @@ function growParentEdgeOfNode(nodeId) {
     console.log('node', nodes.get(nodeId))
     if (nodeId === "mainNode:middle") return;
     if (nodes.get(nodeId).group === "source3") return;
-
+    network.setOptions({
+        groups: {
+            "source1": {
+                physics: true
+            }
+        }
+    })
     edges.update({
         id: edgeId[0],
         from: "mainNode:middle",
         to: nodeId,
-        color: {
-            color: '#ff0000',
-        },
         length: 400,
         physics: true
     })
@@ -347,6 +232,11 @@ function growParentEdgeOfNode(nodeId) {
     })
 
     network.focus(nodeId, {animation: true})
+    // todo:    get the focus on node also when animation is finished
+    //          problem:  focus stops earlier than animation has finished
+    /*network.on("animationFinished", () => {
+        network.focus(nodeId)
+    })*/
 
 }
 
@@ -405,15 +295,20 @@ network.on('click', (obj) => {
     }
 
 });
-/*
+
 network.on("stabilizationIterationsDone", function () {
+    console.log('stabilized')
     network.setOptions({
         groups: {
             "source1": {
-                physics: false
+                fixed: {
+                    x: true,
+                    y: true
+                },
             }
         }
     });
 });
 
- */
+
+

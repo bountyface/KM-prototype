@@ -4,7 +4,7 @@ call <anaconda_dir>/Scripts/activate.bat <anaconda_dir>
 Windows:
 cd D:
 
-cd D:\git\vis-test && python -m http.server 8888 &.
+cd D:\git\KM-prototype\vis-test && python -m http.server 8888 &.
 
 python -m http.server 8888 &.
 
