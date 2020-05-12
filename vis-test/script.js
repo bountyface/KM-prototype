@@ -56,7 +56,9 @@ var options = {
     layout: {randomSeed: 2},
     physics: {
         barnesHut: {gravitationalConstant: -20000},
-        //stabilization: {enabled: false}
+        stabilization: {
+            iterations: 150
+        }
 
         /*barnesHut:
             {
@@ -176,6 +178,19 @@ var network = new vis.Network(container, data, options);
 createMainEdges();
 
 
+function fixNodesPositions() {
+
+    nodes.forEach(node => {
+        nodes.update({
+            id: node.id, fixed: {
+                x: true,
+                y: true
+            },
+        })
+    })
+    console.log("all nodes", nodes.get());
+}
+
 // --- Bindings
 
 const addToPublicTransportButton = document.getElementById('addToPublicTransport');
@@ -212,23 +227,25 @@ function growParentEdgeOfNode(nodeId) {
     console.log('node', nodes.get(nodeId))
     if (nodeId === "mainNode:middle") return;
     if (nodes.get(nodeId).group === "source3") return;
-    network.setOptions({
-        groups: {
-            "source1": {
-                physics: true
-            }
-        }
-    })
+
     edges.update({
         id: edgeId[0],
         from: "mainNode:middle",
         to: nodeId,
         length: 400,
-        physics: true
+        physics: true,
+        fixed: {
+            x: false,
+            y: false
+        },
     })
     nodes.update({
         id: nodeId,
-        physics: true
+        physics: true,
+        fixed: {
+            x: false,
+            y: false
+        },
     })
 
     network.focus(nodeId, {animation: true})
@@ -298,7 +315,8 @@ network.on('click', (obj) => {
 
 network.on("stabilizationIterationsDone", function () {
     console.log('stabilized')
-    network.setOptions({
+    fixNodesPositions();
+    /*network.setOptions({
         groups: {
             "source1": {
                 fixed: {
@@ -307,8 +325,20 @@ network.on("stabilizationIterationsDone", function () {
                 },
             }
         }
-    });
+    });*/
 });
+/*
 
-
+network.on("stabilized", function () {
+    console.log('stabilized')
+    network.setOptions({
+        nodes: {
+            physics: false
+        },
+        edges: {
+            physics: false
+        }
+    })
+})
+ */
 
