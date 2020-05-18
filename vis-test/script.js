@@ -271,15 +271,30 @@ function expandNode(clickedNodeId) {
     // position of the clicked node
     const nodeposition = network.getPosition(clickedNodeId)
 
+    let if1 = null;
+    let if2 = null;
     // temporary Array
     let subnodeArray = []
     switch (mapStartingPoint) {
         case "categories":
-            // cycle through typeOfContents and save every element to the subnode
-            // todo: if no articles with accdording type of Content: type of content node does not show up in the map
-            typeOfContentArray.forEach(typeOfContent => {
-                subnodeArray.push(typeOfContent)
-            })
+            // check if clicked node is part of tagsArray or typeOfContentArrray
+            if (typeOfContentArray.find(typeOfContent => typeOfContent.id === clickedNodeId)) {
+                tagsArray.forEach(tag => {
+                    subnodeArray.push(tag)
+                })
+                console.log("if1")
+                if1 = true;
+            }
+            if (tagsArray.find(tag => tag.id === clickedNodeId)) {
+                // cycle through typeOfContents and save every element to the subnode
+                // todo: if no articles with accdording type of Content: type of content node does not show up in the map
+                typeOfContentArray.forEach(typeOfContent => {
+                    subnodeArray.push(typeOfContent)
+                })
+                if2 = true;
+                console.log("if2")
+            }
+
             break;
 
     }
@@ -301,7 +316,7 @@ function expandNode(clickedNodeId) {
         // make a node for each article in subnodeArray
         nodes.add({
                 id: subnode.id,
-                label: mapStartingPoint === categories ? subnode.label : subnode.title,
+                label: ((mapStartingPoint === categories) && if2) ? subnode.label : subnode.title,
                 group: "source3",
                 x: nodeposition.x,
                 y: nodeposition.y
