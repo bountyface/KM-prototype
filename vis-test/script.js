@@ -142,9 +142,8 @@ var options = {
                 y: 6
             },
             value: 10,
-
             interaction: {
-                dragNodes: false, // do not allow dragging node
+                //dragNodes: false, // do not allow dragging node
                 //
             }
 
@@ -164,7 +163,7 @@ var options = {
                 y: 6
             },
             // if changed, sizing error onclick occurs
-            //value: 2,
+            value: 2,
 
         },
     }
@@ -303,10 +302,19 @@ function expandNode(clickedNodeId) {
 
 // Interaction
 network.on('click', (obj) => {
-    document.querySelector('.report').innerHTML = obj.nodes[0]
+    if (!obj.nodes[0]) return;
+    // show content on the right side
+
+    //document.querySelector('.report').innerHTML = obj.nodes[0]
+
 
     if (obj.nodes.length) { // Did the click occur on a node?
         const clickedNodeId = obj.nodes[0]; // The id of the node clicked
+        // check if nodeId belongs to an article (online number ids for articles)
+        if (Number.isInteger(clickedNodeId)) {
+            const article = articlesArray.find(article => article.id === clickedNodeId)
+            document.querySelector('.report').innerHTML = JSON.stringify(article)
+        }
         expandNode(clickedNodeId);
         // todo: function, that gives multiple edges to other nodes, according to tags of articles
     }
