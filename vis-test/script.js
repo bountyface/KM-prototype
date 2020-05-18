@@ -2,6 +2,11 @@ const nodesArray = [];
 const edgeColor = 'rgb(255,203,0)'
 const selectEdgeColor = 'rgb(55,255,0)'
 
+const categories = "categories"
+const contentType = "contentType"
+const language = "language"
+
+const mapStartingPoint = categories
 // radiobutton categories activated by default
 document.getElementById("categories").checked = true;
 
@@ -265,14 +270,27 @@ function expandNode(clickedNodeId) {
 
     // position of the clicked node
     const nodeposition = network.getPosition(clickedNodeId)
+
     // temporary Array
     let subnodeArray = []
+    switch (mapStartingPoint) {
+        case "categories":
+            // cycle through typeOfContents and save every element to the subnode
+            // todo: if no articles with accdording type of Content: type of content node does not show up in the map
+            typeOfContentArray.forEach(typeOfContent => {
+                subnodeArray.push(typeOfContent)
+            })
+            break;
 
-    // cycle through articles array, find every article with tag of clicked node
-    articlesArray.forEach(article => {
-        // save every article belonging to the clickedNodeId to the subnodeArray
-        article.tags.find(tag => tag === clickedNodeId) ? subnodeArray.push(article) : null;
-    })
+    }
+    /*
+        // cycle through articles array, find every article with tag of clicked node
+        articlesArray.forEach(article => {
+            // save every article belonging to the clickedNodeId to the subnodeArray
+            article.tags.find(tag => tag === clickedNodeId) ? subnodeArray.push(article) : null;
+        })
+
+     */
     console.log("subnodeArray", subnodeArray)
 
     // iterate through subnodeArray
@@ -283,7 +301,7 @@ function expandNode(clickedNodeId) {
         // make a node for each article in subnodeArray
         nodes.add({
                 id: subnode.id,
-                label: subnode.title,
+                label: mapStartingPoint === categories ? subnode.label : subnode.title,
                 group: "source3",
                 x: nodeposition.x,
                 y: nodeposition.y
