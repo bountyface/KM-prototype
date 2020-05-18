@@ -218,13 +218,19 @@ focusOnPublicTransportButton.addEventListener('click', () => {
 
 function growParentEdgeOfNode(nodeId) {
     const edgeId = network.getConnectedEdges(nodeId)
-    console.log('node', nodes.get(nodeId))
+
+    // getConnectedNodes only returns an array of the connected nodes on the first call
+    const parentNode = network.getConnectedNodes(edgeId)[0]
+
+    console.log('getConnectedNodes', parentNode)
+    //console.log('nodes', nodes.get())
     if (nodeId === "mainNode:middle") return;
-    if (nodes.get(nodeId).group === "source3") return;
+    //if (nodes.get(nodeId).group === "source3") return;
+    if (!parentNode) return;
 
     edges.update({
         id: edgeId[0],
-        from: "mainNode:middle",
+        from: parentNode,
         to: nodeId,
         length: 400,
         physics: true,
@@ -252,8 +258,9 @@ function growParentEdgeOfNode(nodeId) {
 }
 
 function expandNode(clickedNodeId) {
-    console.log("clickedNodeId: ", clickedNodeId)
-    // todo: make edge to parent of selected node longer
+
+
+    // make edge to parent of selected node longer
     growParentEdgeOfNode(clickedNodeId)
 
     // position of the clicked node
@@ -289,11 +296,8 @@ function expandNode(clickedNodeId) {
             to: subnode.id
         },)
     })
-
-    // set focus to clicked Node
-    //network.focus(clickedNodeId, {animation: true})
-
 }
+
 
 // Interaction
 network.on('click', (obj) => {
