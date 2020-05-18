@@ -7,7 +7,6 @@ document.getElementById("categories").checked = true;
 
 
 // init nodes
-
 function createNodesArray() {
     // center node
     nodesArray.push({
