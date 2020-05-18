@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Network</title>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
@@ -17,18 +17,30 @@
             width: 200px;
             vertical-align: top;
         }
+
+        .radios {
+            display: inline-block;
+            width: 200px;
+            vertical-align: top;
+        }
     </style>
 </head>
 <body>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.css"/>
 <div class="network">Network Graph</div>
-<div class="report">Node</div>
-<button id="add" type="button" title="Add another Node">
-    Add another Node
-</button>
-<button id="addToPublicTransport" type="button">
-    Add another Node to Public Transport
-</button>
+<div class="radios">
+    <form>
+        Startpunkt<br>
+        <input type="radio" name="startingpoint" id="categories">Categories<br>
+        <input type="radio" name="startingpoint" id="contentType">Content-Type<br>
+        <input type="radio" name="startingpoint" id="language">Language<br>
+    </form>
+    <button id="submit">Submit!</button>
+</div>
+<div class="report">
+    </br>Node
+</div>
 <button id="focusOnPublicTransport" type="button">
     Set focus to Public Transport
 </button>

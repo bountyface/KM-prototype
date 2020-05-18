@@ -2,8 +2,11 @@ const nodesArray = [];
 const edgeColor = 'rgb(255,203,0)'
 const selectEdgeColor = 'rgb(55,255,0)'
 
-// init nodes
+// radiobutton categories activated by default
+document.getElementById("categories").checked = true;
 
+
+// init nodes
 
 function createNodesArray() {
     // center node
@@ -192,28 +195,21 @@ function fixNodesPositions() {
 
 // --- Bindings
 
-const addToPublicTransportButton = document.getElementById('addToPublicTransport');
-let counter = 1;
-addToPublicTransportButton.addEventListener('click', () => {
-    const nodeposition = network.getPosition("publicTransport")
+const submitButton = document.getElementById("submit");
+submitButton.addEventListener('click', () => {
+    // radio button selection
 
-    const id = Math.random();
-    nodes.add({
-            id: "subNode:addedToPublicTransport" + id,
-            label: "Subnode " + counter,
-            group: "source1",
-            x: nodeposition.x,
-            y: nodeposition.y
+    if (document.getElementById("categories").checked === true) {
+        console.log('categories checked')
+    }
+    if (document.getElementById("contentType").checked === true) {
+        console.log('contentType checked')
+    }
+    if (document.getElementById("language").checked === true) {
+        console.log('language checked')
+    }
+})
 
-        },
-    );
-    edges.add({
-        from: "mainNode:publicTransport",
-        to: "subNode:addedToPublicTransport" + id,
-    },)
-    network.focus("mainNode:publicTransport", {animation: true})
-    counter = counter + 1;
-});
 const focusOnPublicTransportButton = document.getElementById("focusOnPublicTransport");
 focusOnPublicTransportButton.addEventListener('click', () => {
     network.focus(publicTransport, {animation: true})
