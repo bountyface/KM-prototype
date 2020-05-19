@@ -173,6 +173,24 @@ var options = {
             value: 2,
 
         },
+        "source4": {
+            font: {
+                color: "#000000"
+            },
+            color: {
+                background: '#ef3737',
+                border: 'navy'
+            },
+            shadow: {
+                enabled: true,
+                color: 'rgba(0,0,0,0.5)',
+                x: 6,
+                y: 6
+            },
+            // if changed, sizing error onclick occurs
+            value: 1,
+
+        },
     }
 
 };
@@ -264,37 +282,45 @@ function growParentEdgeOfNode(nodeId) {
 
 function expandNode(clickedNodeId) {
 
-
     // make edge to parent of selected node longer
     growParentEdgeOfNode(clickedNodeId)
 
     // position of the clicked node
     const nodeposition = network.getPosition(clickedNodeId)
 
-    let if1 = null;
-    let if2 = null;
+    let clickedOnTypeOfContent = null;
+    let clickedOnTag = null;
     // temporary Array
     let subnodeArray = []
+
     switch (mapStartingPoint) {
         case "categories":
             // check if clicked node is part of tagsArray or typeOfContentArrray
+            // clicked on typeOfContent?
             if (typeOfContentArray.find(typeOfContent => typeOfContent.id === clickedNodeId)) {
-                tagsArray.forEach(tag => {
-                    subnodeArray.push(tag)
+
+                // find parent of node
+                const edgeId = network.getConnectedEdges(clickedNodeId)
+                // getConnectedNodes only returns an array of the connected nodes on the first call
+                const parentNode = network.getConnectedNodes(edgeId)[0]
+
+                articlesArray.forEach(article => {
+                    // push every article, that has the type of the clicked node && where the right tag occurs
+                    ((article.type === clickedNodeId) && (article.tags.find(tag => tag === parentNode))) ? subnodeArray.push(article) : null
                 })
                 console.log("if1")
-                if1 = true;
+                clickedOnTypeOfContent = true;
             }
+            // clicked on tag?
             if (tagsArray.find(tag => tag.id === clickedNodeId)) {
                 // cycle through typeOfContents and save every element to the subnode
                 // todo: if no articles with accdording type of Content: type of content node does not show up in the map
                 typeOfContentArray.forEach(typeOfContent => {
                     subnodeArray.push(typeOfContent)
                 })
-                if2 = true;
+                clickedOnTag = true;
                 console.log("if2")
             }
-
             break;
 
     }
@@ -316,8 +342,8 @@ function expandNode(clickedNodeId) {
         // make a node for each article in subnodeArray
         nodes.add({
                 id: subnode.id,
-                label: ((mapStartingPoint === categories) && if2) ? subnode.label : subnode.title,
-                group: "source3",
+                label: ((mapStartingPoint === categories) && clickedOnTag) ? subnode.label : subnode.title,
+                group: clickedOnTag ? "source3" : "source4",
                 x: nodeposition.x,
                 y: nodeposition.y
             },

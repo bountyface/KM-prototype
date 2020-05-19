@@ -36,5 +36,19 @@ const articlesArray = [
         tags: [policy, accessibility, publicTransport],
         type: campaign
     },
+    {
+        id: 6,
+        title: "Title 6",
+        content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        tags: [employment, accessibility, publicTransport],
+        type: campaign
+    },
+    {
+        id: 7,
+        title: "Title 7",
+        content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        tags: [employment],
+        type: campaign
+    },
 
 ]
