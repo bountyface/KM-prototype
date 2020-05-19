@@ -314,7 +314,7 @@ function expandNode(clickedNodeId) {
             // clicked on tag?
             if (tagsArray.find(tag => tag.id === clickedNodeId)) {
                 // cycle through typeOfContents and save every element to the subnode
-                // todo: if no articles with accdording type of Content: type of content node does not show up in the map
+                // todo: if no articles with according type of Content: type of content node does not show up in the map
                 typeOfContentArray.forEach(typeOfContent => {
                     subnodeArray.push(typeOfContent)
                 })
@@ -324,14 +324,6 @@ function expandNode(clickedNodeId) {
             break;
 
     }
-    /*
-        // cycle through articles array, find every article with tag of clicked node
-        articlesArray.forEach(article => {
-            // save every article belonging to the clickedNodeId to the subnodeArray
-            article.tags.find(tag => tag === clickedNodeId) ? subnodeArray.push(article) : null;
-        })
-
-     */
     console.log("subnodeArray", subnodeArray)
 
     // iterate through subnodeArray
