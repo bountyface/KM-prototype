@@ -89,6 +89,7 @@ function growParentEdgeOfNode(nodeId) {
 }
 
 function expandNode(clickedNodeId) {
+    const node = nodes.get(clickedNodeId)
 
     // make edge to parent of selected node longer
     growParentEdgeOfNode(clickedNodeId)
@@ -96,27 +97,28 @@ function expandNode(clickedNodeId) {
     // position of the clicked node
     const nodeposition = network.getPosition(clickedNodeId)
 
-    let clickedOnTypeOfContent = null;
-    let clickedOnTag = null;
+    let clickedOnTypeOfContent = false;
+    let clickedOnTag = false;
     // temporary Array
     let subnodeArray = []
+
+    // find parent of node
+    const edgeId = network.getConnectedEdges(clickedNodeId)
+    // getConnectedNodes only returns an array of the connected nodes on the first call
+    const parentNode = network.getConnectedNodes(edgeId)[0]
 
     switch (mapStartingPoint) {
         case categories:
             // check if clicked node is part of tagsArray or typeOfContentArrray
             // clicked on typeOfContent?
-            if (typeOfContentArray.find(typeOfContent => typeOfContent.id === clickedNodeId)) {
-
-                // find parent of node
-                const edgeId = network.getConnectedEdges(clickedNodeId)
-                // getConnectedNodes only returns an array of the connected nodes on the first call
-                const parentNode = network.getConnectedNodes(edgeId)[0]
-
+            if (typeOfContentArray.find(typeOfContent => typeOfContent.id === node.selfNodeId)) {
                 articlesArray.forEach(article => {
                     // push every article, that has the type of the clicked node && where the right tag occurs
-                    ((article.type === clickedNodeId) && (article.tags.find(tag => tag === parentNode))) ? subnodeArray.push(article) : null
+                    ((article.type === node.selfNodeId) && (article.tags.find(tag => tag === parentNode))) ? subnodeArray.push(article) : null
                 })
+
                 clickedOnTypeOfContent = true;
+                console.log('clickedOnTypeOfContent', clickedOnTypeOfContent)
             }
             // clicked on tag?
             if (tagsArray.find(tag => tag.id === clickedNodeId)) {
@@ -126,6 +128,7 @@ function expandNode(clickedNodeId) {
                     subnodeArray.push(typeOfContent)
                 })
                 clickedOnTag = true;
+                console.log('clickedOnTag', clickedOnTag)
             }
             break;
 
@@ -134,22 +137,24 @@ function expandNode(clickedNodeId) {
     // iterate through subnodeArray
     subnodeArray.forEach(subnode => {
         // return, if node is already on the network
-        if (network.findNode(subnode.id).length) return;
+        //if (network.findNode(subnode.id).length) return;
 
         // make a node for each article in subnodeArray
         nodes.add({
-                id: subnode.id,
+                id: subnode.id + "-" + clickedNodeId,
                 label: ((mapStartingPoint === categories) && clickedOnTag) ? subnode.label : subnode.title,
                 group: clickedOnTag ? "source3" : "source4",
                 x: nodeposition.x,
-                y: nodeposition.y
+                y: nodeposition.y,
+                selfNodeId: subnode.id,
+                parentNode: clickedNodeId
             },
         );
 
         // make an edge from the clicked node to its subnodes
         edges.add({
             from: clickedNodeId,
-            to: subnode.id
+            to: subnode.id + "-" + clickedNodeId
         },)
     })
 }
