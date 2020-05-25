@@ -167,8 +167,9 @@ network.on('click', (obj) => {
     if (obj.nodes.length) { // Did the click occur on a node?
         const clickedNodeId = obj.nodes[0]; // The id of the node clicked
         // check if nodeId belongs to an article (online number ids for articles)
-        if (Number.isInteger(clickedNodeId)) {
-            const article = articlesArray.find(article => article.id === clickedNodeId)
+        const clickedNode = nodes.get(clickedNodeId)
+        if (Number.isInteger(clickedNode.selfNodeId)) {
+            const article = articlesArray.find(article => article.id === clickedNode.selfNodeId)
             document.querySelector('.report').innerHTML = JSON.stringify(article)
         }
         expandNode(clickedNodeId);
