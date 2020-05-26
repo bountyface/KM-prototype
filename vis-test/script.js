@@ -32,8 +32,6 @@ if (network) {
         if (obj.nodes.length) { // Did the click occur on a node?
             const clickedNodeId = obj.nodes[0]; // The id of the node clicked
             // check if nodeId belongs to an article (online number ids for articles)
-            console.log('clickedNodeIdClick', clickedNodeId)
-
             const clickedNode = nodes.get(clickedNodeId)
             if (Number.isInteger(clickedNode.selfNodeId)) {
                 const article = articlesArray.find(article => article.id === clickedNode.selfNodeId)

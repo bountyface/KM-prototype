@@ -38,7 +38,7 @@ function createNodesArray() {
                 contentTypeNodesArray.push({
                     id: typeOfContent.id,
                     label: typeOfContent.label,
-                    group: "source2"
+                    group: "source2",
                 })
             })
             initMap(contentTypeNodesArray, edgesArray)
@@ -115,7 +115,6 @@ function growParentEdgeOfNode(nodeId) {
 
 function expandNode(clickedNodeId) {
     const node = nodes.get(clickedNodeId)
-    console.log(clickedNodeId)
     // make edge to parent of selected node longer
     growParentEdgeOfNode(clickedNodeId)
 
@@ -136,6 +135,7 @@ function expandNode(clickedNodeId) {
         case categories:
             // check if clicked node is part of tagsArray or typeOfContentArrray
             // clicked on typeOfContent?
+
             if (typeOfContentArray.find(typeOfContent => typeOfContent.id === node.selfNodeId)) {
                 articlesArray.forEach(article => {
                     // push every article, that has the type of the clicked node && where the right tag occurs
@@ -155,33 +155,86 @@ function expandNode(clickedNodeId) {
                 clickedOnTag = true;
                 console.log('clickedOnTag', clickedOnTag)
             }
+
+            // iterate through subnodeArray
+            subnodeArray.forEach(subnode => {
+                // return, if node is already on the network
+                //if (network.findNode(subnode.id).length) return;
+
+                // make a node for each article in subnodeArray
+                nodes.add({
+                        id: subnode.id + "-" + clickedNodeId,
+                        label: ((mapStartingPoint === categories) && clickedOnTag) ? subnode.label : subnode.title,
+                        group: clickedOnTag ? "source3" : "source4",
+                        x: nodeposition.x,
+                        y: nodeposition.y,
+                        selfNodeId: subnode.id,
+                        parentNode: clickedNodeId
+                    },
+                );
+
+                // make an edge from the clicked node to its subnodes
+                edges.add({
+                    from: clickedNodeId,
+                    to: subnode.id + "-" + clickedNodeId
+                },)
+            })
+            break;
+
+
+        case contentType:
+            console.log('node', node)
+            // clicked on type of content?
+            if (typeOfContentArray.find(typeOfContent => typeOfContent.id === node.id)) {
+                tagsArray.forEach(tag => {
+                    // push every tag
+                    subnodeArray.push(tag)
+                })
+
+                clickedOnTypeOfContent = true;
+                console.log('clickedOnTypeOfContent', clickedOnTypeOfContent)
+            }
+
+            // clicked on tag?
+            if (tagsArray.find(tag => tag.id === node.selfNodeId)) {
+                // cycle through typeOfContents and save every element to the subnode
+                // todo: if no articles with according type of Content: type of content node does not show up in the map
+                articlesArray.forEach(article => {
+                    // push every article, that has the type of the clicked node && where the right tag occurs
+                    ((article.type === node.parentNode) && (article.tags.find(tag => tag === node.selfNodeId))) ? subnodeArray.push(article) : null
+                })
+                clickedOnTag = true;
+                console.log('clickedOnTag', clickedOnTag)
+            }
+
+            
+            // iterate through subnodeArray
+            subnodeArray.forEach(subnode => {
+                // return, if node is already on the network
+                //if (network.findNode(subnode.id).length) return;
+
+                // make a node for each article in subnodeArray
+                nodes.add({
+                        id: subnode.id + "-" + clickedNodeId,
+                        label: clickedOnTypeOfContent ? subnode.label : subnode.title,
+                        group: clickedOnTypeOfContent ? "source3" : "source4",
+                        x: nodeposition.x,
+                        y: nodeposition.y,
+                        selfNodeId: subnode.id,
+                        parentNode: clickedNodeId
+                    },
+                );
+
+                // make an edge from the clicked node to its subnodes
+                edges.add({
+                    from: clickedNodeId,
+                    to: subnode.id + "-" + clickedNodeId
+                },)
+            })
+
             break;
 
     }
-
-    // iterate through subnodeArray
-    subnodeArray.forEach(subnode => {
-        // return, if node is already on the network
-        //if (network.findNode(subnode.id).length) return;
-
-        // make a node for each article in subnodeArray
-        nodes.add({
-                id: subnode.id + "-" + clickedNodeId,
-                label: ((mapStartingPoint === categories) && clickedOnTag) ? subnode.label : subnode.title,
-                group: clickedOnTag ? "source3" : "source4",
-                x: nodeposition.x,
-                y: nodeposition.y,
-                selfNodeId: subnode.id,
-                parentNode: clickedNodeId
-            },
-        );
-
-        // make an edge from the clicked node to its subnodes
-        edges.add({
-            from: clickedNodeId,
-            to: subnode.id + "-" + clickedNodeId
-        },)
-    })
 }
 
 function initMap(nodesArray, edgesArray) {
