@@ -43,6 +43,23 @@ function createNodesArray() {
             })
             initMap(contentTypeNodesArray, edgesArray)
             break;
+        case region:
+            console.log('case region')
+            const regionNodesArray = []
+            regionNodesArray.push({
+                id: "mainNode:middle",
+                label: "Region",
+                group: "source1",
+            })
+            regionNodesArray.forEach(region => {
+                regionNodesArray.push({
+                    id: region.id,
+                    label: region.label,
+                    group: "source2",
+                })
+            })
+            initMap(regionNodesArray, edgesArray)
+            break;
     }
 
 
@@ -207,7 +224,7 @@ function expandNode(clickedNodeId) {
                 console.log('clickedOnTag', clickedOnTag)
             }
 
-            
+
             // iterate through subnodeArray
             subnodeArray.forEach(subnode => {
                 // return, if node is already on the network
