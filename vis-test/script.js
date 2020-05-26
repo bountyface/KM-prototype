@@ -5,7 +5,7 @@ const selectEdgeColor = 'rgb(55,255,0)'
 
 const categories = "categories"
 const contentType = "contentType"
-const language = "language"
+const region = "region"
 let mapStartingPoint = categories
 
 let nodes;

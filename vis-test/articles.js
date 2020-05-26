@@ -6,14 +6,16 @@ const articlesArray = [
         title: "Title 1",
         content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
         tags: [employment, safetyAndSecurity],
-        type: policyDocument
+        type: policyDocument,
+        region: "Germany"
     },
     {
         id: 2,
         title: "Title 2",
         content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
         tags: [policy, safetyAndSecurity],
-        type: informationPlatform
+        type: informationPlatform,
+        region: "Netherlands"
     },
     {
         id: 3,
