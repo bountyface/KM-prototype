@@ -115,7 +115,7 @@ function growParentEdgeOfNode(nodeId) {
 
 function expandNode(clickedNodeId) {
     const node = nodes.get(clickedNodeId)
-
+    console.log(clickedNodeId)
     // make edge to parent of selected node longer
     growParentEdgeOfNode(clickedNodeId)
 
@@ -187,7 +187,7 @@ function expandNode(clickedNodeId) {
 function initMap(nodesArray, edgesArray) {
     nodes = new vis.DataSet(nodesArray);
     edges = new vis.DataSet(edgesArray);
-    console.log("nodesArray", nodesArray)
+
     // init edges
     createMainEdges(nodesArray);
     // create a network at div
@@ -324,5 +324,9 @@ function initMap(nodesArray, edgesArray) {
     };
 
 // create network
-    const network = new vis.Network(container, data, options);
+    if (!network) {
+        network = new vis.Network(container, data, options);
+    }
+    network.setData(data)
+
 }
