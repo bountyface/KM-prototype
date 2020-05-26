@@ -2,9 +2,14 @@
 function createNodesArray() {
     // center node
 
+    // creates nodesArray according to selected mapStartingPoint and delivers
+    // it to initMap()
     switch (mapStartingPoint) {
         case categories:
-            nodesArray.push({
+            console.log('case categories')
+            // todo initMap()
+            const categoriesNodesArray = []
+            categoriesNodesArray.push({
                 id: "mainNode:middle",
                 label: "Categories",
                 group: "source1",
@@ -12,20 +17,40 @@ function createNodesArray() {
             })
             // every other node around the center node
             tagsArray.forEach(tag => {
-                nodesArray.push({
+                categoriesNodesArray.push({
                     id: tag.id,
                     label: tag.label,
                     group: "source2"
                 })
             })
+            initMap(categoriesNodesArray, edgesArray)
+            break;
+        case contentType:
+            console.log('case contentType')
+            // todo initMap()
+            const contentTypeNodesArray = []
+            contentTypeNodesArray.push({
+                id: "mainNode:middle",
+                label: "Content Type",
+                group: "source1",
+            })
+            typeOfContentArray.forEach(typeOfContent => {
+                contentTypeNodesArray.push({
+                    id: typeOfContent.id,
+                    label: typeOfContent.label,
+                    group: "source2"
+                })
+            })
+            initMap(contentTypeNodesArray, edgesArray)
+            break;
     }
 
 
 }
 
-function createMainEdges() {
+function createMainEdges(array) {
     // erstellt für jeden Node eine Verbindung mit der MainNode
-    nodesArray.forEach(node => {
+    array.forEach(node => {
         if (node.id === "mainNode:middle") return;
 
         edges.add({
@@ -157,4 +182,147 @@ function expandNode(clickedNodeId) {
             to: subnode.id + "-" + clickedNodeId
         },)
     })
+}
+
+function initMap(nodesArray, edgesArray) {
+    nodes = new vis.DataSet(nodesArray);
+    edges = new vis.DataSet(edgesArray);
+    console.log("nodesArray", nodesArray)
+    // init edges
+    createMainEdges(nodesArray);
+    // create a network at div
+    const container = document.querySelector('.network');
+
+    const data = {
+        nodes: nodes,
+        edges: edges
+    };
+
+    const options = {
+        layout: {randomSeed: 2},
+        physics: {
+            barnesHut: {gravitationalConstant: -20000},
+            stabilization: {
+                iterations: 150
+            }
+        },
+
+        nodes: {
+            chosen: false,
+
+            font: {
+                //size: 12,
+                color: '#000000',
+            },
+            borderWidth: 2,
+            scaling: {
+                min: 50,
+                max: 80,
+
+                label: {
+                    min: 12,
+                    max: 17,
+                    enabled: true
+                }
+            },
+            shape: 'circle',
+            physics: true,
+            widthConstraint: 90,
+        },
+        edges: {
+            width: 2,
+            //length: 250,
+            color: {
+                color: edgeColor,
+            },
+            chosen: {
+                label: false,
+                edge: (values, id, selected, hovering) => {
+                    values.color = edgeColor;
+                    values.width = 3
+                }
+            }
+
+        },
+        interaction: {
+
+            dragNodes: false,// do not allow dragging nodes
+            //zoomView: false, // do not allow zooming
+            //dragView: false  // do not allow dragging
+        },
+        groups: {
+            "source1": {
+                color: {
+                    background: 'rgba(42,228,255,1)',
+                    border: 'navy'
+                },
+                shadow: {
+                    enabled: true,
+                    color: 'rgba(0,0,0,0.5)',
+                    x: 6,
+                    y: 6
+                },
+                value: 10,
+                interaction: {
+                    //dragNodes: false, // do not allow dragging node
+                    //
+                }
+
+            },
+            "source2": {
+                color: {
+                    background: 'rgb(175,234,100)',
+                    border: 'maroon'
+                },
+                shadow: {
+                    enabled: true,
+                    color: 'rgba(0,0,0,0.5)',
+                    x: 6,
+                    y: 6
+                },
+                value: 5,
+
+            },
+            "source3": {
+                font: {
+                    color: "#000000"
+                },
+                color: {
+                    background: '#ffbf00',
+                    border: 'navy'
+                },
+                shadow: {
+                    enabled: true,
+                    color: 'rgba(0,0,0,0.5)',
+                    x: 6,
+                    y: 6
+                },
+                // if changed, sizing error onclick occurs
+                value: 2,
+
+            },
+            "source4": {
+                font: {
+                    color: "#000000"
+                },
+                color: {
+                    background: '#ef3737',
+                    border: 'navy'
+                },
+                shadow: {
+                    enabled: true,
+                    color: 'rgba(0,0,0,0.5)',
+                    x: 6,
+                    y: 6
+                },
+                // if changed, sizing error onclick occurs
+                value: 1,
+
+            },
+        }
+
+    };
+
+// create network
+    const network = new vis.Network(container, data, options);
 }
