@@ -15,8 +15,8 @@ submitButton.addEventListener('click', () => {
         console.log('mapStartingPoint', mapStartingPoint)
         createNodesArray();
     }
-    if (document.getElementById("language").checked === true) {
-        console.log('language checked')
+    if (document.getElementById("region").checked === true) {
+        console.log('region checked')
         mapStartingPoint = region
         createNodesArray()
     }

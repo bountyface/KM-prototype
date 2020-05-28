@@ -51,11 +51,11 @@ function createNodesArray() {
                 label: "Region",
                 group: "source1",
             })
-            regionNodesArray.forEach(region => {
+            regionsArray.forEach(region => {
                 regionNodesArray.push({
                     id: region.id,
                     label: region.label,
-                    group: "source2",
+                    group: "source5",
                 })
             })
             initMap(regionNodesArray, edgesArray)
@@ -90,6 +90,7 @@ function fixNodesPositions() {
         })
     })
 }
+
 
 function growParentEdgeOfNode(nodeId) {
     const edgeId = network.getConnectedEdges(nodeId)
@@ -140,8 +141,11 @@ function expandNode(clickedNodeId) {
 
     let clickedOnTypeOfContent = false;
     let clickedOnTag = false;
+    let clickedOnRegion = false;
     // temporary Array
     let subnodeArray = []
+    // assign group of subnode to right value according to node clicked
+    let groupForSubnode = "";
 
     // find parent of node
     const edgeId = network.getConnectedEdges(clickedNodeId)
@@ -198,7 +202,6 @@ function expandNode(clickedNodeId) {
             })
             break;
 
-
         case contentType:
             console.log('node', node)
             // clicked on type of content?
@@ -242,14 +245,64 @@ function expandNode(clickedNodeId) {
                     },
                 );
 
+
+            })
+            break;
+
+        case region:
+
+            // clicked on region?
+            if (regionsArray.find(region => region.id === node.id)) {
+                tagsArray.forEach(tag => {
+                    subnodeArray.push(tag)
+                })
+                clickedOnRegion = true;
+                groupForSubnode = "source2"
+            }
+
+            // clicked on tag?
+            if (tagsArray.find(tag => tag.id === node.selfNodeId)) {
+                typeOfContentArray.forEach(typeOfContent => {
+                    subnodeArray.push(typeOfContent)
+                })
+                clickedOnTag = true;
+                groupForSubnode = "source3"
+            }
+
+            // clicked on typeOfContent?
+            if (typeOfContentArray.find(typeOfContent => typeOfContent.id === node.selfNodeId)) {
+                const realParentNode = nodes.get(parentNode)
+                articlesArray.forEach(article => {
+                    // push every article, that has the type of clicked node && where the right tag occurs && where the region matches
+                    ((article.type === node.selfNodeId) && (article.tags.find(tag => tag === realParentNode.selfNodeId)) && (article.region === realParentNode.parentNode)) ? subnodeArray.push(article) : null
+                })
+                clickedOnTypeOfContent = true;
+                groupForSubnode = "source4"
+            }
+
+            // iterate through subnodeArray
+            subnodeArray.forEach(subnode => {
+                // return, if node is already on the network
+                //if (network.findNode(subnode.id).length) return;
+
+                // make a node for each article in subnodeArray
+                nodes.add({
+                    id: subnode.id + "-" + clickedNodeId,
+                    label: clickedOnTag || clickedOnRegion ? subnode.label : subnode.title,
+                    group: groupForSubnode,
+                    x: nodeposition.x,
+                    y: nodeposition.y,
+                    selfNodeId: subnode.id,
+                    parentNode: clickedNodeId,
+                })
                 // make an edge from the clicked node to its subnodes
                 edges.add({
                     from: clickedNodeId,
                     to: subnode.id + "-" + clickedNodeId
                 },)
             })
-
             break;
+
 
     }
 }
@@ -377,6 +430,24 @@ function initMap(nodesArray, edgesArray) {
                 },
                 color: {
                     background: '#ef3737',
+                    border: 'navy'
+                },
+                shadow: {
+                    enabled: true,
+                    color: 'rgba(0,0,0,0.5)',
+                    x: 6,
+                    y: 6
+                },
+                // if changed, sizing error onclick occurs
+                value: 1,
+
+            },
+            "source5": {
+                font: {
+                    color: "#000000"
+                },
+                color: {
+                    background: '#fff755',
                     border: 'navy'
                 },
                 shadow: {
