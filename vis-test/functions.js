@@ -38,7 +38,7 @@ function createNodesArray() {
                 contentTypeNodesArray.push({
                     id: typeOfContent.id,
                     label: typeOfContent.label,
-                    group: "source2",
+                    group: "source3",
                 })
             })
             initMap(contentTypeNodesArray, edgesArray)
@@ -237,14 +237,18 @@ function expandNode(clickedNodeId) {
                 nodes.add({
                         id: subnode.id + "-" + clickedNodeId,
                         label: clickedOnTypeOfContent ? subnode.label : subnode.title,
-                        group: clickedOnTypeOfContent ? "source3" : "source4",
+                        group: clickedOnTypeOfContent ? "source2" : "source4",
                         x: nodeposition.x,
                         y: nodeposition.y,
                         selfNodeId: subnode.id,
                         parentNode: clickedNodeId
                     },
                 );
-
+                // make an edge from the clicked node to its subnodes
+                edges.add({
+                    from: clickedNodeId,
+                    to: subnode.id + "-" + clickedNodeId
+                },)
 
             })
             break;
