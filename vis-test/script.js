@@ -39,7 +39,6 @@ if (network) {
             }
             expandNode(clickedNodeId);
 
-
             // todo: collapse node on second click
         }
 

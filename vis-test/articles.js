@@ -81,5 +81,13 @@ const articlesArray = [
         type: measure,
         region: lithuania
     },
+    {
+        id: 11,
+        title: "Title 11",
+        content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        tags: [publicTransport, safetyAndSecurity, employment],
+        type: campaign,
+        region: germany
+    },
 
 ]
