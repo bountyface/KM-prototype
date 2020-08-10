@@ -351,13 +351,23 @@ function collapseNode(nodeId) {
 
   edges.update({
     id: edgeId[0],
-    length: 50,
+    length: 10,
     physics: true,
     fixed: {
       x: false,
       y: false,
     },
   });
+  nodes.update({
+    id: nodeId,
+    physics: true,
+    fixed: {
+      x: false,
+      y: false,
+    },
+  });
+
+  // todo: destroy all the other edges and nodes and their children, except mainEdge
 
   console.log("all edges after", edges.get());
 }

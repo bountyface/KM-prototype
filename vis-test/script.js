@@ -47,6 +47,6 @@ if (network) {
 
   network.on("stabilizationIterationsDone", function () {
     console.log("stabilized");
-    fixNodesPositions();
+    //fixNodesPositions();
   });
 }
