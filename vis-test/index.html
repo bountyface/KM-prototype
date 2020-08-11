@@ -1,83 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
-<head>
-    <title>Network</title>
-    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-    <style type="text/css">
-        .container{
-            display:flex;
-            flex-direction: column;
-        }
-        .div-head{
-            display: flex;
-            background-color: rgba(235,220,21, 1);
-            height: 10vh;
-            width: 100vh;
-            display: flex;
-           flex-direction: row;
-           align-items: center;
-           margin-bottom: 1vh;
-        }
-        .radios-and-button {
-           
-           
-        }
-        .radios{
-            display: flex;
+	<head>
+		<title>Network</title>
+		<script
+			type="text/javascript"
+			src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+		></script>
+		<style type="text/css">
+			.container {
+				display: flex;
+				flex-direction: column;
+			}
+			.div-head {
+				display: flex;
+				background-color: rgba(235, 220, 21, 1);
+				height: 10vh;
+				width: 100vh;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				margin-bottom: 1vh;
+			}
+			.radios-and-button {
+			}
+			.radios {
+				display: flex;
+				height: inherit;
+				width: inherit;
+				align-items: center;
+				justify-content: space-evenly;
+			}
+			.network-and-context {
+				display: flex;
+				flex-direction: row;
+			}
+			.network {
+				width: 100vh;
+				height: 95vh;
+				border: 1px solid lightgray;
+				background-color: white;
+			}
 
-           
-        }
-        .network-and-context{
-            display: flex;
-            flex-direction: row;
-        }
-        .network {   
-            width: 100vh;
-            height: 95vh;
-            border: 1px solid lightgray;
-            background-color: white;
-        }
+			.context {
+				width: 200px;
+				vertical-align: top;
+			}
+		</style>
+	</head>
+	<body>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.css"
+		/>
+		<div class="container">
+			<div class="div-head">
+				<form class="radios">
+					<input type="radio" name="startingpoint" id="categories" />Categories
+					<input
+						type="radio"
+						name="startingpoint"
+						id="contentType"
+					/>Content-Type
+					<input type="radio" name="startingpoint" id="region" />Region
+				</form>
+				<button id="submit">Submit!</button>
+			</div>
 
-        .context {
-        width: 200px;
-        vertical-align: top;
-    }
-    </style>
-</head>
-<body>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.css"/>
-<div class="container">
-    <div class="div-head">
-            <form class="radios">
-                Startpunkt<br>
-                <input type="radio" name="startingpoint" id="categories">Categories<br>
-                <input type="radio" name="startingpoint" id="contentType">Content-Type<br>
-                <input type="radio" name="startingpoint" id="region">Region<br>
-            </form>
-            <button id="submit">Submit!</button>
-    </div>
-
-    <div class="network-and-context">
-        <div class="network">Network Graph</div>
-
+			<div class="network-and-context">
+				<div class="network">Network Graph</div>
+				<!--
         <div class="context">
             <button id="focusOnPublicTransport" type="button">
                 Set focus to Public Transport
                </button>
             </br>Node
         </div>
-        
-    </div>
-</div>
+        -->
+			</div>
+		</div>
 
-<script type="text/javascript" src="tags.js"></script>
-<script type="text/javascript" src="typeOfContent.js"></script>
-<script type="text/javascript" src="regions.js"></script>
-<script type="text/javascript" src="articles.js"></script>
-<script type="text/javascript" src="functions.js"></script>
-<script type="text/javascript" src="bindings.js"></script>
-<script type="text/javascript" src="script.js">
-</script>
-</body>
+		<script type="text/javascript" src="tags.js"></script>
+		<script type="text/javascript" src="typeOfContent.js"></script>
+		<script type="text/javascript" src="regions.js"></script>
+		<script type="text/javascript" src="articles.js"></script>
+		<script type="text/javascript" src="functions.js"></script>
+		<script type="text/javascript" src="bindings.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</body>
 </html>

@@ -448,7 +448,7 @@ function initMap(nodesArray, edgesArray) {
 					border: "navy",
 				},
 				font: {
-					size: 18,
+					size: 28,
 					color: "#FFFFFF",
 				},
 				shadow: {
