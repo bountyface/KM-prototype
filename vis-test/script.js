@@ -39,12 +39,10 @@ if (network) {
         );
         document.querySelector(".report").innerHTML = JSON.stringify(article);
       }
-      console.log(nodes.get());
+      // check if node is already expanded if not
       nodes.get(clickedNodeId).expanded
         ? collapseNode(clickedNodeId)
         : expandNode(clickedNodeId);
-
-      // todo: collapse node on second click
     }
   });
 

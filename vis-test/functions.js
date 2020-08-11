@@ -342,9 +342,6 @@ function collapseNode(nodeId) {
   // getConnectedNodes only returns an array of the connected nodes on the first call
   const parentNode = network.getConnectedNodes(edgeId)[0];
   console.log("parentNode - sometimes undefined?!", parentNode);
-  console.log(network.getConnectedNodes(edgeId));
-
-  //if (nodes.get(nodeId).group === "source3") return;
 
   edges.update({
     id: edgeId[0],
@@ -369,20 +366,15 @@ function collapseNode(nodeId) {
   nodesToBeRemoved = [];
   edgesToBeRemoved = [];
   nodes.get().forEach((node) => {
-    if (node.parentNode === publicTransport) {
+    if (node.parentNode === nodeId) {
       nodesToBeRemoved.push(node);
 
-      console.log("whatedge", network.getConnectedEdges(node.id));
       edgesToBeRemoved.push(network.getConnectedEdges(node.id)[0]);
     }
   });
 
-  console.log("edgesToBeRemoved", edgesToBeRemoved);
   nodes.remove(nodesToBeRemoved);
   edges.remove(edgesToBeRemoved);
-
-  console.log("all edges after", edges.get());
-  console.log("all nodes after", nodes.get());
 }
 
 function initMap(nodesArray, edgesArray) {
