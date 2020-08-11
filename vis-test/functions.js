@@ -162,10 +162,28 @@ function expandNode(clickedNodeId) {
 	switch (mapStartingPoint) {
 		case gd_goal:
 			// check if clicked node is part of tagsArray or typeOfContentArrray
-			// clicked on typeOfContent?
-			console.log(node);
-			if (gd_goalArray.find((element) => element.id === node.selfNodeId)) {
+
+			// clicked on gd_goal element?
+			if (gd_goalArray.find((element) => element.id === clickedNodeId)) {
 				console.log("hey");
+				// cycle through typeOfContents and save every element to the subnode
+				// todo: if no articles with according type of Content: type of content node does not show up in the map
+				sectionArray.forEach((section) => {
+					subnodeArray.push(section);
+				});
+				console.log("clickedOn gd_Goal");
+			}
+
+			// clicked on section?
+
+			if (sectionArray.find((element) => element.id === node.selfNodeId)) {
+				content_typeArray.forEach((content_type) => {
+					subnodeArray.push(content_type);
+				});
+			}
+			/*
+			console.log(node);
+			if (sectionArray.find((element) => element.id === node.selfNodeId)) {
 				sectionArray.forEach((section) => {
 					// push every article, that has the type of the clicked node && where the right tag occurs
 					section.type === node.selfNodeId &&
@@ -177,16 +195,7 @@ function expandNode(clickedNodeId) {
 				clickedOnTypeOfContent = true;
 				console.log("clickedOnTypeOfContent", clickedOnTypeOfContent);
 			}
-			// clicked on section?
-			if (sectionArray.find((section) => section.id === clickedNodeId)) {
-				// cycle through typeOfContents and save every element to the subnode
-				// todo: if no articles with according type of Content: type of content node does not show up in the map
-				content_typeArray.forEach((content_type) => {
-					subnodeArray.push(content_type);
-				});
-				clickedOnTag = true;
-				console.log("clickedOnTag", clickedOnTag);
-			}
+			*/
 
 			// iterate through subnodeArray
 			subnodeArray.forEach((subnode) => {
@@ -196,10 +205,7 @@ function expandNode(clickedNodeId) {
 				// make a node for each article in subnodeArray
 				nodes.add({
 					id: subnode.id + "-" + clickedNodeId,
-					label:
-						mapStartingPoint === categories && clickedOnTag
-							? subnode.label
-							: subnode.title,
+					label: subnode.label,
 					group: clickedOnTag ? "source2" : "source2",
 					x: newNodePosition.x,
 					y: newNodePosition.y,
