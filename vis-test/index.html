@@ -13,11 +13,11 @@
 			}
 			.div-head {
 				display: flex;
-				background-color: rgba(235, 220, 21, 1);
-				height: 10vh;
+				background-color: rgba(234, 220, 23, 1);
+				height: 13vh;
 				width: 100vh;
 				display: flex;
-				flex-direction: row;
+				flex-direction: column;
 				align-items: center;
 				margin-bottom: 1vh;
 			}
@@ -29,6 +29,9 @@
 				width: inherit;
 				align-items: center;
 				justify-content: space-evenly;
+			}
+
+			.button {
 			}
 			.network-and-context {
 				display: flex;
@@ -55,15 +58,23 @@
 		<div class="container">
 			<div class="div-head">
 				<form class="radios">
-					<input type="radio" name="startingpoint" id="categories" />Categories
+					<input type="radio" name="startingpoint" id="categories" />Gender &
+					Diversity Goal
 					<input
 						type="radio"
 						name="startingpoint"
 						id="contentType"
 					/>Content-Type
-					<input type="radio" name="startingpoint" id="region" />Region
+					<input type="radio" name="startingpoint" id="outcome" />Outcome
+					<input type="radio" name="startingpoint" id="field" />Field
+					<input type="radio" name="startingpoint" id="section" />Section
+					<input
+						type="radio"
+						name="startingpoint"
+						id="content-type"
+					/>Content-Type
 				</form>
-				<button id="submit">Submit!</button>
+				<button id="submit">Start</button>
 			</div>
 
 			<div class="network-and-context">
@@ -83,6 +94,11 @@
 		<script type="text/javascript" src="typeOfContent.js"></script>
 		<script type="text/javascript" src="regions.js"></script>
 		<script type="text/javascript" src="articles.js"></script>
+		<script type="text/javascript" src="/categories/content_type.js"></script>
+		<script type="text/javascript" src="/categories/field.js"></script>
+		<script type="text/javascript" src="/categories/gd_goal.js"></script>
+		<script type="text/javascript" src="/categories/outcome.js"></script>
+		<script type="text/javascript" src="/categories/section.js"></script>
 		<script type="text/javascript" src="functions.js"></script>
 		<script type="text/javascript" src="bindings.js"></script>
 		<script type="text/javascript" src="script.js"></script>

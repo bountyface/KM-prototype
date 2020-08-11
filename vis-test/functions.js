@@ -368,7 +368,6 @@ function collapseNode(nodeId) {
 	nodes.get().forEach((node) => {
 		if (node.parentNode === nodeId) {
 			nodesToBeRemoved.push(node);
-
 			edgesToBeRemoved.push(network.getConnectedEdges(node.id)[0]);
 		}
 	});
@@ -448,7 +447,7 @@ function initMap(nodesArray, edgesArray) {
 					border: "navy",
 				},
 				font: {
-					size: 28,
+					//size: 28,
 					color: "#FFFFFF",
 				},
 				shadow: {
