@@ -334,17 +334,12 @@ function expandNode(clickedNodeId) {
 
 function collapseNode(nodeId) {
   if (nodeId === "mainNode:middle") return;
-  console.log(nodes.get(nodeId));
   //console.log(nodes.get());
-
   const edgeId = network.getConnectedEdges(nodeId);
-
-  console.log("edgeId", edgeId[0]);
-  console.log("all edges before", edges.get());
 
   // getConnectedNodes only returns an array of the connected nodes on the first call
   const parentNode = network.getConnectedNodes(edgeId)[0];
-  console.log("parentNode", parentNode);
+  console.log("parentNode - sometimes undefined?!", parentNode);
   console.log(network.getConnectedNodes(edgeId));
 
   //if (nodes.get(nodeId).group === "source3") return;
@@ -369,10 +364,19 @@ function collapseNode(nodeId) {
 
   // todo: destroy all the other edges and nodes and their children, except mainEdge
   nodesToBeRemoved = [];
+  edgesToBeRemoved = [];
   nodes.get().forEach((node) => {
-    if (node.parentNode === publicTransport) nodesToBeRemoved.push(node);
+    if (node.parentNode === publicTransport) {
+      nodesToBeRemoved.push(node);
+
+      console.log("whatedge", network.getConnectedEdges(node.id));
+      edgesToBeRemoved.push(network.getConnectedEdges(node.id)[0]);
+    }
   });
+
+  console.log("edgesToBeRemoved", edgesToBeRemoved);
   nodes.remove(nodesToBeRemoved);
+  edges.remove(edgesToBeRemoved);
 
   console.log("all edges after", edges.get());
   console.log("all nodes after", nodes.get());
