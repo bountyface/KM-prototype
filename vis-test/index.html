@@ -4,46 +4,73 @@
     <title>Network</title>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <style type="text/css">
-        .network {
-            display: inline-block;
+        .container{
+            display:flex;
+            flex-direction: column;
+        }
+        .div-head{
+            display: flex;
+            background-color: gold;
+            height: 10vh;
+            width: 100vh;
+        }
+        .radios-and-button {
+           display: flex;
+           flex-direction: row;
+           align-items: center;
+           
+        }
+        .radios{
+            display: flex;
+
+           
+        }
+        .network-and-context{
+            display: flex;
+            flex-direction: row;
+        }
+        .network {   
             width: 100vh;
             height: 95vh;
             border: 1px solid lightgray;
             background-color: white;
         }
 
-        .report {
-            display: inline-block;
-            width: 200px;
-            vertical-align: top;
-        }
-
-        .radios {
-            display: inline-block;
-            width: 200px;
-            vertical-align: top;
-        }
+        .context {
+        width: 200px;
+        vertical-align: top;
+    }
     </style>
 </head>
 <body>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.css"/>
-<div class="network">Network Graph</div>
-<div class="radios">
-    <form>
-        Startpunkt<br>
-        <input type="radio" name="startingpoint" id="categories">Categories<br>
-        <input type="radio" name="startingpoint" id="contentType">Content-Type<br>
-        <input type="radio" name="startingpoint" id="region">Region<br>
-    </form>
-    <button id="submit">Submit!</button>
+<div class="container">
+    <div class="div-head">
+        <div class="radios-and-button">
+            <form class="radios">
+                Startpunkt<br>
+                <input type="radio" name="startingpoint" id="categories">Categories<br>
+                <input type="radio" name="startingpoint" id="contentType">Content-Type<br>
+                <input type="radio" name="startingpoint" id="region">Region<br>
+            </form>
+            <button id="submit">Submit!</button>
+        </div>
+    </div>
+
+    <div class="network-and-context">
+        <div class="network">Network Graph</div>
+
+        <div class="context">
+            <button id="focusOnPublicTransport" type="button">
+                Set focus to Public Transport
+               </button>
+            </br>Node
+        </div>
+        
+    </div>
 </div>
-<div class="report">
-    </br>Node
-</div>
-<button id="focusOnPublicTransport" type="button">
-    Set focus to Public Transport
-</button>
+
 <script type="text/javascript" src="tags.js"></script>
 <script type="text/javascript" src="typeOfContent.js"></script>
 <script type="text/javascript" src="regions.js"></script>
