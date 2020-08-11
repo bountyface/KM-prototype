@@ -5,25 +5,25 @@ function createNodesArray() {
 	// creates nodesArray according to selected mapStartingPoint and delivers
 	// it to initMap()
 	switch (mapStartingPoint) {
-		case categories:
-			console.log("case categories");
+		case gd_goal:
+			console.log("case gd_goal");
 			// todo initMap()
-			const categoriesNodesArray = [];
-			categoriesNodesArray.push({
+			const gd_goalNodesArray = [];
+			gd_goalNodesArray.push({
 				id: "mainNode:middle",
-				label: "Categories",
+				label: "Gender & Diversity Goal",
 				group: "source1",
 			});
 			// every other node around the center node
-			tagsArray.forEach((tag) => {
-				categoriesNodesArray.push({
+			gd_goalArray.forEach((tag) => {
+				gd_goalNodesArray.push({
 					id: tag.id,
 					label: tag.label,
 					group: "source2",
 					expanded: false,
 				});
 			});
-			initMap(categoriesNodesArray, edgesArray);
+			initMap(gd_goalNodesArray, edgesArray);
 			break;
 		case contentType:
 			console.log("case contentType");
@@ -160,19 +160,16 @@ function expandNode(clickedNodeId) {
 	const parentNode = network.getConnectedNodes(edgeId)[0];
 
 	switch (mapStartingPoint) {
-		case categories:
+		case gd_goal:
 			// check if clicked node is part of tagsArray or typeOfContentArrray
 			// clicked on typeOfContent?
-
-			if (
-				typeOfContentArray.find(
-					(typeOfContent) => typeOfContent.id === node.selfNodeId
-				)
-			) {
-				articlesArray.forEach((article) => {
+			console.log(node);
+			if (gd_goalArray.find((element) => element.id === node.selfNodeId)) {
+				console.log("hey");
+				sectionArray.forEach((section) => {
 					// push every article, that has the type of the clicked node && where the right tag occurs
-					article.type === node.selfNodeId &&
-					article.tags.find((tag) => tag === parentNode)
+					section.type === node.selfNodeId &&
+					section.tags.find((tag) => tag === parentNode)
 						? subnodeArray.push(article)
 						: null;
 				});
@@ -180,12 +177,12 @@ function expandNode(clickedNodeId) {
 				clickedOnTypeOfContent = true;
 				console.log("clickedOnTypeOfContent", clickedOnTypeOfContent);
 			}
-			// clicked on tag?
-			if (tagsArray.find((tag) => tag.id === clickedNodeId)) {
+			// clicked on section?
+			if (sectionArray.find((section) => section.id === clickedNodeId)) {
 				// cycle through typeOfContents and save every element to the subnode
 				// todo: if no articles with according type of Content: type of content node does not show up in the map
-				typeOfContentArray.forEach((typeOfContent) => {
-					subnodeArray.push(typeOfContent);
+				content_typeArray.forEach((content_type) => {
+					subnodeArray.push(content_type);
 				});
 				clickedOnTag = true;
 				console.log("clickedOnTag", clickedOnTag);

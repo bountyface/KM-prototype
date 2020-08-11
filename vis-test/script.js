@@ -2,17 +2,17 @@ const nodesArray = [];
 const edgesArray = [];
 const edgeColor = "rgba(50,77,137,1)";
 const selectEdgeColor = "rgba(235,220,21, 1)";
-const categories = "categories";
+const gd_goal = "gd_goal";
 const contentType = "contentType";
 const region = "region";
-let mapStartingPoint = categories;
+let mapStartingPoint = gd_goal;
 
 let nodes;
 let edges;
 let network;
 
 // radiobutton categories activated by default
-document.getElementById("categories").checked = true;
+document.getElementById("gd_goal_radio").checked = true;
 
 // init the first view
 
