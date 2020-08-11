@@ -20,6 +20,7 @@ function createNodesArray() {
           id: tag.id,
           label: tag.label,
           group: "source2",
+          expanded: false,
         });
       });
       initMap(categoriesNodesArray, edgesArray);
@@ -136,6 +137,7 @@ function expandNode(clickedNodeId) {
     id: clickedNodeId,
     oldX: oldNodePosition.x,
     oldY: oldNodePosition.y,
+    expanded: true,
   });
 
   // make edge to parent of selected node longer
@@ -360,6 +362,7 @@ function collapseNode(nodeId) {
       x: false,
       y: false,
     },
+    expanded: false,
   });
 
   // todo: destroy all the other edges and nodes and their children, except mainEdge

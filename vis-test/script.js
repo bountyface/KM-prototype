@@ -39,7 +39,10 @@ if (network) {
         );
         document.querySelector(".report").innerHTML = JSON.stringify(article);
       }
-      expandNode(clickedNodeId);
+      console.log(nodes.get());
+      nodes.get(clickedNodeId).expanded
+        ? collapseNode(clickedNodeId)
+        : expandNode(clickedNodeId);
 
       // todo: collapse node on second click
     }
