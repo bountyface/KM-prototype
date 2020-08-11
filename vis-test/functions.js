@@ -364,7 +364,7 @@ function collapseNode(nodeId) {
 		},
 		expanded: false,
 	});
-
+	console.log(nodes.get());
 	// todo: destroy all the other edges and nodes and their children, except mainEdge
 	nodesToBeRemoved = [];
 	edgesToBeRemoved = [];
@@ -373,10 +373,19 @@ function collapseNode(nodeId) {
 			nodesToBeRemoved.push(node);
 			edgesToBeRemoved.push(network.getConnectedEdges(node.id)[0]);
 		}
+
+		//if(network.getConnectedEdges(node.id))
 	});
 
 	nodes.remove(nodesToBeRemoved);
 	edges.remove(edgesToBeRemoved);
+
+	// todo: remove nodes with no edge on the map
+	/*
+	nodes.get().forEach((node) => {
+		if (!network.getConnectedEdges(node.id)[0]);
+		nodes.remove(node);
+	});*/
 }
 
 function initMap(nodesArray, edgesArray) {
