@@ -10,14 +10,16 @@
         }
         .div-head{
             display: flex;
-            background-color: gold;
+            background-color: rgba(235,220,21, 1);
             height: 10vh;
             width: 100vh;
-        }
-        .radios-and-button {
-           display: flex;
+            display: flex;
            flex-direction: row;
            align-items: center;
+           margin-bottom: 1vh;
+        }
+        .radios-and-button {
+           
            
         }
         .radios{
@@ -47,7 +49,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.css"/>
 <div class="container">
     <div class="div-head">
-        <div class="radios-and-button">
             <form class="radios">
                 Startpunkt<br>
                 <input type="radio" name="startingpoint" id="categories">Categories<br>
@@ -55,7 +56,6 @@
                 <input type="radio" name="startingpoint" id="region">Region<br>
             </form>
             <button id="submit">Submit!</button>
-        </div>
     </div>
 
     <div class="network-and-context">
