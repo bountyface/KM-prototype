@@ -351,7 +351,7 @@ function collapseNode(nodeId) {
 
   edges.update({
     id: edgeId[0],
-    length: 10,
+    length: 250,
     physics: true,
     fixed: {
       x: false,
@@ -368,8 +368,14 @@ function collapseNode(nodeId) {
   });
 
   // todo: destroy all the other edges and nodes and their children, except mainEdge
+  nodesToBeRemoved = [];
+  nodes.get().forEach((node) => {
+    if (node.parentNode === publicTransport) nodesToBeRemoved.push(node);
+  });
+  nodes.remove(nodesToBeRemoved);
 
   console.log("all edges after", edges.get());
+  console.log("all nodes after", nodes.get());
 }
 
 function initMap(nodesArray, edgesArray) {
