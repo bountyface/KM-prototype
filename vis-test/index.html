@@ -33,12 +33,27 @@
 				justify-content: space-evenly;
 			}
 
+			.radiocontainer {
+				display: block;
+				position: relative;
+				padding-left: 35px;
+				margin-bottom: 12px;
+				cursor: pointer;
+				font-size: 18px;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				font-family: Arial, Helvetica, sans-serif;
+				font-weight: bold;
+			}
+
 			/* Hide the browser's default radio button */
-			/*.container input {
+			.container input {
 				position: absolute;
 				opacity: 0;
 				cursor: pointer;
-			}*/
+			}
 
 			/* Create a custom radio button */
 			.checkmark {
@@ -47,18 +62,18 @@
 				left: 0;
 				height: 25px;
 				width: 25px;
-				background-color: #eee;
+				background-color: rgb(255, 255, 255);
 				border-radius: 50%;
 			}
 
 			/* On mouse-over, add a grey background color */
 			.container:hover input ~ .checkmark {
-				background-color: #ccc;
+				background-color: rgb(255, 255, 255);
 			}
 
 			/* When the radio button is checked, add a blue background */
 			.container input:checked ~ .checkmark {
-				background-color: #2196f3;
+				background-color: rgba(50, 77, 137, 1);
 			}
 
 			/* Create the indicator (the dot/circle - hidden when not checked) */
@@ -84,8 +99,6 @@
 			}
 
 			.radioText {
-				font-family: Arial, Helvetica, sans-serif;
-				font-weight: bold;
 			}
 
 			.button {
@@ -100,6 +113,7 @@
 				margin-bottom: 4px;
 				cursor: pointer;
 				border-radius: 8px;
+				font-family: Arial, Helvetica, sans-serif;
 			}
 
 			.button:hover {
@@ -136,31 +150,40 @@
 		/>
 		<div class="container">
 			<div class="div-head">
-				<form class="radios">
-					<input type="radio" name="startingpoint" id="gd_goal_radio" />
-					<p class="radioText">
+				<div class="radios">
+					<label class="radiocontainer">
 						Gender & Diversity Goal
-					</p>
-					<input type="radio" name="startingpoint" id="outcome" />
-					<p class="radioText">
-						Outcome
-					</p>
-					<input type="radio" name="startingpoint" id="field" />
-					<p class="radioText">
-						Field
-					</p>
-					<input type="radio" name="startingpoint" id="section" />
-					<p class="radioText">
-						Section
-					</p>
-					<input type="radio" name="startingpoint" id="content-type" />
-					<p class="radioText">
-						Content-Type
-					</p>
-				</form>
-				<button id="submit" class="button">Start</button>
-			</div>
+						<input type="radio" name="startingpoint" id="gd_goal_radio" />
 
+						<span class="checkmark"></span>
+					</label>
+
+					<label class="radiocontainer"
+						>Outcome
+						<input type="radio" name="startingpoint" id="outcome_radio" />
+						<span class="checkmark"></span>
+					</label>
+
+					<label class="radiocontainer"
+						>Field
+						<input type="radio" name="startingpoint" id="field_radio" />
+						<span class="checkmark"></span>
+					</label>
+
+					<label class="radiocontainer"
+						>Section
+						<input type="radio" name="startingpoint" id="section_radio" />
+						<span class="checkmark"></span>
+					</label>
+
+					<label class="radiocontainer"
+						>Content-Type
+						<input type="radio" name="startingpoint" id="content_type_radio" />
+						<span class="checkmark"></span>
+					</label>
+				</div>
+				<button id="submit" class="button">Go</button>
+			</div>
 			<div class="network-and-context">
 				<div class="network">Network Graph</div>
 				<!--

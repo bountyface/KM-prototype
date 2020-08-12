@@ -9,15 +9,24 @@ submitButton.addEventListener("click", () => {
 		mapStartingPoint = gd_goal;
 		createNodesArray();
 	}
-	if (document.getElementById("contentType").checked === true) {
-		console.log("contentType checked");
-		mapStartingPoint = contentType;
-		console.log("mapStartingPoint", mapStartingPoint);
+	if (document.getElementById("outcome_radio").checked === true) {
+		console.log("outcome checked");
+		mapStartingPoint = outcome;
 		createNodesArray();
 	}
-	if (document.getElementById("region").checked === true) {
-		console.log("region checked");
-		mapStartingPoint = region;
+	if (document.getElementById("field_radio").checked === true) {
+		console.log("field checked");
+		mapStartingPoint = field;
+		createNodesArray();
+	}
+	if (document.getElementById("section_radio").checked === true) {
+		console.log("section checked");
+		mapStartingPoint = section;
+		createNodesArray();
+	}
+	if (document.getElementById("content_type_radio").checked === true) {
+		console.log("content_type checked");
+		mapStartingPoint = content_type;
 		createNodesArray();
 	}
 });

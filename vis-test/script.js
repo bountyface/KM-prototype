@@ -3,8 +3,10 @@ const edgesArray = [];
 const edgeColor = "rgba(50,77,137,1)";
 const selectEdgeColor = "rgba(235,220,21, 1)";
 const gd_goal = "gd_goal";
-const contentType = "contentType";
-const region = "region";
+const outcome = "outcome";
+const field = "field";
+const section = "section";
+const content_type = "content_type";
 let mapStartingPoint = gd_goal;
 
 let nodes;
