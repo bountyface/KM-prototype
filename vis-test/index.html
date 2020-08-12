@@ -20,6 +20,8 @@
 				flex-direction: column;
 				align-items: center;
 				margin-bottom: 1vh;
+				border: 1px solid lightgray;
+				border-radius: 18px;
 			}
 			.radios-and-button {
 			}
@@ -31,8 +33,84 @@
 				justify-content: space-evenly;
 			}
 
-			.button {
+			/* Hide the browser's default radio button */
+			/*.container input {
+				position: absolute;
+				opacity: 0;
+				cursor: pointer;
+			}*/
+
+			/* Create a custom radio button */
+			.checkmark {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 25px;
+				width: 25px;
+				background-color: #eee;
+				border-radius: 50%;
 			}
+
+			/* On mouse-over, add a grey background color */
+			.container:hover input ~ .checkmark {
+				background-color: #ccc;
+			}
+
+			/* When the radio button is checked, add a blue background */
+			.container input:checked ~ .checkmark {
+				background-color: #2196f3;
+			}
+
+			/* Create the indicator (the dot/circle - hidden when not checked) */
+			.checkmark:after {
+				content: "";
+				position: absolute;
+				display: none;
+			}
+
+			/* Show the indicator (dot/circle) when checked */
+			.container input:checked ~ .checkmark:after {
+				display: block;
+			}
+
+			/* Style the indicator (dot/circle) */
+			.container .checkmark:after {
+				top: 9px;
+				left: 9px;
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background: white;
+			}
+
+			.radioText {
+				font-family: Arial, Helvetica, sans-serif;
+				font-weight: bold;
+			}
+
+			.button {
+				background-color: rgba(50, 77, 137, 1);
+				border: none;
+				color: white;
+				padding: 8px 16px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
+				margin-bottom: 4px;
+				cursor: pointer;
+				border-radius: 8px;
+			}
+
+			.button:hover {
+				background-color: rgb(66, 101, 179);
+			}
+
+			.button:active {
+				background-color: rgb(84, 123, 207);
+				transform: translateY(1px);
+			}
+
 			.network-and-context {
 				display: flex;
 				flex-direction: row;
@@ -41,6 +119,7 @@
 				width: 100vh;
 				height: 95vh;
 				border: 1px solid lightgray;
+				border-radius: 18px;
 				background-color: white;
 			}
 
@@ -58,18 +137,28 @@
 		<div class="container">
 			<div class="div-head">
 				<form class="radios">
-					<input type="radio" name="startingpoint" id="gd_goal_radio" />Gender &
-					Diversity Goal
-					<input type="radio" name="startingpoint" id="outcome" />Outcome
-					<input type="radio" name="startingpoint" id="field" />Field
-					<input type="radio" name="startingpoint" id="section" />Section
-					<input
-						type="radio"
-						name="startingpoint"
-						id="content-type"
-					/>Content-Type
+					<input type="radio" name="startingpoint" id="gd_goal_radio" />
+					<p class="radioText">
+						Gender & Diversity Goal
+					</p>
+					<input type="radio" name="startingpoint" id="outcome" />
+					<p class="radioText">
+						Outcome
+					</p>
+					<input type="radio" name="startingpoint" id="field" />
+					<p class="radioText">
+						Field
+					</p>
+					<input type="radio" name="startingpoint" id="section" />
+					<p class="radioText">
+						Section
+					</p>
+					<input type="radio" name="startingpoint" id="content-type" />
+					<p class="radioText">
+						Content-Type
+					</p>
 				</form>
-				<button id="submit">Start</button>
+				<button id="submit" class="button">Start</button>
 			</div>
 
 			<div class="network-and-context">
