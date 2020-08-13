@@ -1,8 +1,8 @@
-const EQUALITY = "EQUALITY";
-const ACCESSIBILITY = "ACCESSIBILITY";
-const INCLUSION = "INCLUSION";
-const PARTICIPATION = "PARTICIPATION";
-const SUSTAINABILITY = "SUSTAINABILITY";
+const EQUALITY = "equality";
+const ACCESSIBILITY = "accessibility";
+const INCLUSION = "inclusion";
+const PARTICIPATION = "participation";
+const SUSTAINABILITY = "sustainability";
 
 const gd_goalArray = [
 	{ id: EQUALITY, label: "Equality" },
