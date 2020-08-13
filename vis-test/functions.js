@@ -21,6 +21,7 @@ function createNodesArray() {
 					label: gd_goal.label,
 					group: "source2",
 					expanded: false,
+					color: "#FFFFFF",
 				});
 			});
 			console.log("gd_goalNodesArray", gd_goalNodesArray);
@@ -461,8 +462,23 @@ function initMap(nodesArray, edgesArray) {
 		},
 
 		nodes: {
-			chosen: false,
+			chosen: {
+				node: (values, id, selected, hovering) => {
+					values.color = selectEdgeColor;
 
+					parentId = nodes.get(id).parentNode;
+					if (parentId) {
+						parent = nodes.get(parentId);
+						console.log(parent);
+						/*nodes.update({
+							id: parentId,
+							color: "#97C2FC",
+						});*/
+					}
+
+					//nodes.get(id).parentNode.color = selectEdgeColor;
+				},
+			},
 			font: {
 				//size: 12,
 				color: "#000000",
@@ -539,57 +555,6 @@ function initMap(nodesArray, edgesArray) {
 					y: 6,
 				},
 				value: 5,
-			},
-			source3: {
-				font: {
-					color: "#000000",
-				},
-				color: {
-					background: "#ffbf00",
-					border: "navy",
-				},
-				shadow: {
-					enabled: true,
-					color: "rgba(0,0,0,0.5)",
-					x: 6,
-					y: 6,
-				},
-				// if changed, sizing error onclick occurs
-				value: 2,
-			},
-			source4: {
-				font: {
-					color: "#000000",
-				},
-				color: {
-					background: "#ef3737",
-					border: "navy",
-				},
-				shadow: {
-					enabled: true,
-					color: "rgba(0,0,0,0.5)",
-					x: 6,
-					y: 6,
-				},
-				// if changed, sizing error onclick occurs
-				value: 1,
-			},
-			source5: {
-				font: {
-					color: "#000000",
-				},
-				color: {
-					background: "#fff755",
-					border: "navy",
-				},
-				shadow: {
-					enabled: true,
-					color: "rgba(0,0,0,0.5)",
-					x: 6,
-					y: 6,
-				},
-				// if changed, sizing error onclick occurs
-				value: 1,
 			},
 		},
 	};
