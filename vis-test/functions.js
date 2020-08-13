@@ -15,50 +15,50 @@ function createNodesArray() {
 				group: "source1",
 			});
 			// every other node around the center node
-			gd_goalArray.forEach((tag) => {
+			gd_goalArray.forEach((gd_goal) => {
 				gd_goalNodesArray.push({
-					id: tag.id,
-					label: tag.label,
+					id: gd_goal.id,
+					label: gd_goal.label,
 					group: "source2",
 					expanded: false,
 				});
 			});
+			console.log("gd_goalNodesArray", gd_goalNodesArray);
 			initMap(gd_goalNodesArray, edgesArray);
 			break;
-		case contentType:
-			console.log("case contentType");
-			// todo initMap()
-			const contentTypeNodesArray = [];
-			contentTypeNodesArray.push({
+		case outcome:
+			console.log("case field");
+			const outcomeNodesArray = [];
+			outcomeNodesArray.push({
 				id: "mainNode:middle",
-				label: "Content Type",
+				label: "Outcome",
 				group: "source1",
 			});
-			typeOfContentArray.forEach((typeOfContent) => {
-				contentTypeNodesArray.push({
-					id: typeOfContent.id,
-					label: typeOfContent.label,
-					group: "source3",
+			outcomeArray.forEach((outcome) => {
+				outcomeNodesArray.push({
+					id: outcome.id,
+					label: outcome.label,
+					group: "source2",
 				});
 			});
-			initMap(contentTypeNodesArray, edgesArray);
+			initMap(outcomeNodesArray, edgesArray);
 			break;
-		case region:
-			console.log("case region");
-			const regionNodesArray = [];
-			regionNodesArray.push({
+		case field:
+			console.log("case field");
+			const fieldNodesArray = [];
+			fieldNodesArray.push({
 				id: "mainNode:middle",
-				label: "Region",
+				label: "Field",
 				group: "source1",
 			});
-			regionsArray.forEach((region) => {
-				regionNodesArray.push({
-					id: region.id,
-					label: region.label,
-					group: "source5",
+			fieldArray.forEach((field) => {
+				fieldNodesArray.push({
+					id: field.id,
+					label: field.label,
+					group: "source2",
 				});
 			});
-			initMap(regionNodesArray, edgesArray);
+			initMap(fieldNodesArray, edgesArray);
 			break;
 	}
 }
@@ -143,9 +143,6 @@ function expandNode(clickedNodeId) {
 	// make edge to parent of selected node longer
 	growParentEdgeOfNode(clickedNodeId);
 
-	// position of the clicked node
-	const newNodePosition = network.getPosition(clickedNodeId);
-
 	let clickedOnTypeOfContent = false;
 	let clickedOnTag = false;
 	let clickedOnRegion = false;
@@ -161,13 +158,10 @@ function expandNode(clickedNodeId) {
 
 	switch (mapStartingPoint) {
 		case gd_goal:
-			// check if clicked node is part of tagsArray or typeOfContentArrray
-
 			// clicked on gd_goal element?
 			if (gd_goalArray.find((element) => element.id === clickedNodeId)) {
 				console.log("hey");
-				// cycle through typeOfContents and save every element to the subnode
-				// todo: if no articles with according type of Content: type of content node does not show up in the map
+
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
@@ -175,40 +169,22 @@ function expandNode(clickedNodeId) {
 			}
 
 			// clicked on section?
-
 			if (sectionArray.find((element) => element.id === node.selfNodeId)) {
 				content_typeArray.forEach((content_type) => {
 					subnodeArray.push(content_type);
 				});
+				console.log("clickedOn section");
 			}
-			/*
-			console.log(node);
-			if (sectionArray.find((element) => element.id === node.selfNodeId)) {
-				sectionArray.forEach((section) => {
-					// push every article, that has the type of the clicked node && where the right tag occurs
-					section.type === node.selfNodeId &&
-					section.tags.find((tag) => tag === parentNode)
-						? subnodeArray.push(article)
-						: null;
-				});
-
-				clickedOnTypeOfContent = true;
-				console.log("clickedOnTypeOfContent", clickedOnTypeOfContent);
-			}
-			*/
 
 			// iterate through subnodeArray
 			subnodeArray.forEach((subnode) => {
 				// return, if node is already on the network
-				//if (network.findNode(subnode.id).length) return;
 
 				// make a node for each article in subnodeArray
 				nodes.add({
 					id: subnode.id + "-" + clickedNodeId,
 					label: subnode.label,
-					group: clickedOnTag ? "source2" : "source2",
-					x: newNodePosition.x,
-					y: newNodePosition.y,
+					group: "source2",
 					selfNodeId: subnode.id,
 					parentNode: clickedNodeId,
 				}),
@@ -220,48 +196,32 @@ function expandNode(clickedNodeId) {
 			});
 			break;
 
-		case contentType:
+		case outcome:
 			console.log("node", node);
-			// clicked on type of content?
-			if (
-				typeOfContentArray.find((typeOfContent) => typeOfContent.id === node.id)
-			) {
-				tagsArray.forEach((tag) => {
+			// clicked on outcome?
+			if (outcomeArray.find((outcome) => outcome.id === node.id)) {
+				fieldArray.forEach((field) => {
 					// push every tag
-					subnodeArray.push(tag);
+					subnodeArray.push(field);
 				});
-
-				clickedOnTypeOfContent = true;
-				console.log("clickedOnTypeOfContent", clickedOnTypeOfContent);
+				console.log("clickedOn outcome");
 			}
 
-			// clicked on tag?
-			if (tagsArray.find((tag) => tag.id === node.selfNodeId)) {
-				// cycle through typeOfContents and save every element to the subnode
-				// todo: if no articles with according type of Content: type of content node does not show up in the map
-				articlesArray.forEach((article) => {
-					// push every article, that has the type of the clicked node && where the right tag occurs
-					article.type === node.parentNode &&
-					article.tags.find((tag) => tag === node.selfNodeId)
-						? subnodeArray.push(article)
-						: null;
+			// clicked on field?
+			if (fieldArray.find((field) => field.id === node.selfNodeId)) {
+				sectionArray.forEach((section) => {
+					subnodeArray.push(section);
 				});
-				clickedOnTag = true;
-				console.log("clickedOnTag", clickedOnTag);
+				console.log("clickedOn field");
 			}
 
 			// iterate through subnodeArray
 			subnodeArray.forEach((subnode) => {
-				// return, if node is already on the network
-				//if (network.findNode(subnode.id).length) return;
-
 				// make a node for each article in subnodeArray
 				nodes.add({
 					id: subnode.id + "-" + clickedNodeId,
-					label: clickedOnTypeOfContent ? subnode.label : subnode.title,
-					group: clickedOnTypeOfContent ? "source2" : "source4",
-					x: newNodePosition.x,
-					y: newNodePosition.y,
+					label: subnode.label,
+					group: "source2",
 					selfNodeId: subnode.id,
 					parentNode: clickedNodeId,
 				});
