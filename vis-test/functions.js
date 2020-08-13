@@ -60,6 +60,42 @@ function createNodesArray() {
 			});
 			initMap(fieldNodesArray, edgesArray);
 			break;
+
+		case section:
+			console.log("case section");
+			const sectionNodesArray = [];
+			sectionNodesArray.push({
+				id: "mainNode:middle",
+				label: "Section",
+				group: "source1",
+			});
+			sectionArray.forEach((section) => {
+				sectionNodesArray.push({
+					id: section.id,
+					label: section.label,
+					group: "source2",
+				});
+			});
+			initMap(sectionNodesArray, edgesArray);
+			break;
+
+		case content_type:
+			console.log("case content_type");
+			const content_typeNodesArray = [];
+			content_typeNodesArray.push({
+				id: "mainNode:middle",
+				label: "Content Type",
+				group: "source1",
+			});
+			content_typeArray.forEach((content_type) => {
+				content_typeNodesArray.push({
+					id: content_type.id,
+					label: content_type.label,
+					group: "source2",
+				});
+			});
+			initMap(content_typeNodesArray, edgesArray);
+			break;
 	}
 }
 
@@ -201,12 +237,10 @@ function expandNode(clickedNodeId) {
 			// clicked on outcome?
 			if (outcomeArray.find((outcome) => outcome.id === node.id)) {
 				fieldArray.forEach((field) => {
-					// push every tag
 					subnodeArray.push(field);
 				});
 				console.log("clickedOn outcome");
 			}
-
 			// clicked on field?
 			if (fieldArray.find((field) => field.id === node.selfNodeId)) {
 				sectionArray.forEach((section) => {
@@ -233,57 +267,107 @@ function expandNode(clickedNodeId) {
 			});
 			break;
 
-		case region:
-			// clicked on region?
-			if (regionsArray.find((region) => region.id === node.id)) {
-				tagsArray.forEach((tag) => {
-					subnodeArray.push(tag);
+		case field:
+			console.log("node", node);
+			// clicked on field?
+			if (fieldArray.find((field) => field.id === node.id)) {
+				sectionArray.forEach((section) => {
+					subnodeArray.push(section);
 				});
-				clickedOnRegion = true;
-				groupForSubnode = "source2";
+				console.log("clickedOn field");
 			}
 
-			// clicked on tag?
-			if (tagsArray.find((tag) => tag.id === node.selfNodeId)) {
-				typeOfContentArray.forEach((typeOfContent) => {
-					subnodeArray.push(typeOfContent);
+			// clicked on section?
+			if (sectionArray.find((section) => section.id === node.selfNodeId)) {
+				content_typeArray.forEach((content_type) => {
+					subnodeArray.push(content_type);
 				});
-				clickedOnTag = true;
-				groupForSubnode = "source3";
-			}
-
-			// clicked on typeOfContent?
-			if (
-				typeOfContentArray.find(
-					(typeOfContent) => typeOfContent.id === node.selfNodeId
-				)
-			) {
-				const realParentNode = nodes.get(parentNode);
-				articlesArray.forEach((article) => {
-					// push every article, that has the type of clicked node && where the right tag occurs && where the region matches
-					article.type === node.selfNodeId &&
-					article.tags.find((tag) => tag === realParentNode.selfNodeId) &&
-					article.region === realParentNode.parentNode
-						? subnodeArray.push(article)
-						: null;
-				});
-				clickedOnTypeOfContent = true;
-				groupForSubnode = "source4";
+				console.log("clickedOn content_type");
 			}
 
 			// iterate through subnodeArray
 			subnodeArray.forEach((subnode) => {
-				// return, if node is already on the network
-				//if (network.findNode(subnode.id).length) return;
-
 				// make a node for each article in subnodeArray
 				nodes.add({
 					id: subnode.id + "-" + clickedNodeId,
-					label:
-						clickedOnTag || clickedOnRegion ? subnode.label : subnode.title,
-					group: groupForSubnode,
-					x: newNodePosition.x,
-					y: newNodePosition.y,
+					label: subnode.label,
+					group: "source2",
+					selfNodeId: subnode.id,
+					parentNode: clickedNodeId,
+				});
+				// make an edge from the clicked node to its subnodes
+				edges.add({
+					from: clickedNodeId,
+					to: subnode.id + "-" + clickedNodeId,
+				});
+			});
+			break;
+
+		case section:
+			console.log("node", node);
+
+			// clicked on section?
+			if (sectionArray.find((section) => section.id === node.id)) {
+				fieldArray.forEach((field) => {
+					subnodeArray.push(field);
+				});
+				console.log("clickedOn section");
+			}
+			/* ToDo: Dritte Kategorie von Sebastian und Cathleen
+			// clicked on section?
+			if (sectionArray.find((section) => section.id === node.selfNodeId)) {
+				content_typeArray.forEach((content_type) => {
+					subnodeArray.push(content_type);
+				});
+				console.log("clickedOn content_type");
+			}
+			*/
+
+			// iterate through subnodeArray
+			subnodeArray.forEach((subnode) => {
+				// make a node for each article in subnodeArray
+				nodes.add({
+					id: subnode.id + "-" + clickedNodeId,
+					label: subnode.label,
+					group: "source2",
+					selfNodeId: subnode.id,
+					parentNode: clickedNodeId,
+				});
+				// make an edge from the clicked node to its subnodes
+				edges.add({
+					from: clickedNodeId,
+					to: subnode.id + "-" + clickedNodeId,
+				});
+			});
+			break;
+
+		case content_type:
+			console.log("node", node);
+			// clicked on content_type?
+			if (
+				content_typeArray.find((content_type) => content_type.id === node.id)
+			) {
+				fieldArray.forEach((field) => {
+					subnodeArray.push(field);
+				});
+				console.log("clickedOn content_type");
+			}
+
+			// clicked on field?
+			if (fieldArray.find((field) => field.id === node.selfNodeId)) {
+				sectionArray.forEach((section) => {
+					subnodeArray.push(section);
+				});
+				console.log("clickedOn field");
+			}
+
+			// iterate through subnodeArray
+			subnodeArray.forEach((subnode) => {
+				// make a node for each article in subnodeArray
+				nodes.add({
+					id: subnode.id + "-" + clickedNodeId,
+					label: subnode.label,
+					group: "source2",
 					selfNodeId: subnode.id,
 					parentNode: clickedNodeId,
 				});
