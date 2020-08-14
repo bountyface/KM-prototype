@@ -59,29 +59,36 @@ if (network) {
 				// parent edge
 				parentEdgeId = network.getConnectedEdges(parentNodeId)[0];
 
-				//network.selectNodes([parentNodeId], false);
-				//network.selectEdges([parentEdgeId]);
-				network.setSelection(
-					{
-						nodes: [clickedNodeId, parentNodeId],
-						edges: [network.getConnectedEdges(clickedNodeId)[0], parentEdgeId],
-					},
-					{
-						highlightEdges: false,
-					}
-				);
-
-				/*
-				nodes.update({
-					id: parentNodeId,
-					color: { background: selectColor },
-				});
-
-				edges.update({
-					id: parentEdgeId,
-					color: selectColor,
-					width: edgeWidthOnSelect,
-				});*/
+				// check if node has grandParent node
+				if (nodes.get(parentNodeId).parentNode) {
+					grandParentId = nodes.get(parentNodeId).parentNode;
+					network.setSelection(
+						{
+							nodes: [clickedNodeId, parentNodeId, grandParentId],
+							edges: [
+								network.getConnectedEdges(clickedNodeId)[0],
+								parentEdgeId,
+								network.getConnectedEdges(grandParentId)[0],
+							],
+						},
+						{
+							highlightEdges: false,
+						}
+					);
+				} else {
+					network.setSelection(
+						{
+							nodes: [clickedNodeId, parentNodeId],
+							edges: [
+								network.getConnectedEdges(clickedNodeId)[0],
+								parentEdgeId,
+							],
+						},
+						{
+							highlightEdges: false,
+						}
+					);
+				}
 			}
 		}
 	});
