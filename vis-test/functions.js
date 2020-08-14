@@ -464,17 +464,7 @@ function initMap(nodesArray, edgesArray) {
 		nodes: {
 			chosen: {
 				node: (values, id, selected, hovering) => {
-					values.color = selectEdgeColor;
-
-					parentId = nodes.get(id).parentNode;
-					if (parentId) {
-						parent = nodes.get(parentId);
-						console.log(parent);
-						/*nodes.update({
-							id: parentId,
-							color: "#97C2FC",
-						});*/
-					}
+					values.color = selectColor;
 
 					//nodes.get(id).parentNode.color = selectEdgeColor;
 				},
@@ -507,8 +497,8 @@ function initMap(nodesArray, edgesArray) {
 			chosen: {
 				label: false,
 				edge: (values, id, selected, hovering) => {
-					values.color = selectEdgeColor;
-					values.width = 4;
+					values.color = selectColor;
+					values.width = edgeWidthOnSelect;
 				},
 			},
 		},
