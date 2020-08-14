@@ -166,7 +166,7 @@ function growParentEdgeOfNode(nodeId) {
 function expandNode(clickedNodeId) {
 	const node = nodes.get(clickedNodeId);
 	// set origin position into array to collapse it later
-	const oldNodePosition = network.getPosition(clickedNodeId);
+	const nodePosition = network.getPosition(clickedNodeId);
 
 	nodes.update({
 		id: clickedNodeId,
@@ -175,9 +175,6 @@ function expandNode(clickedNodeId) {
 
 	// make edge to parent of selected node longer
 	growParentEdgeOfNode(clickedNodeId);
-
-	let clickedOnTypeOfContent = false;
-	let clickedOnTag = false;
 	let clickedOnRegion = false;
 	// temporary Array
 	let subnodeArray = [];
@@ -220,6 +217,8 @@ function expandNode(clickedNodeId) {
 					group: "source2",
 					selfNodeId: subnode.id,
 					parentNode: clickedNodeId,
+					x: nodePosition.x,
+					y: nodePosition.y,
 				}),
 					// make an edge from the clicked node to its subnodes
 					edges.add({
@@ -255,6 +254,8 @@ function expandNode(clickedNodeId) {
 					group: "source2",
 					selfNodeId: subnode.id,
 					parentNode: clickedNodeId,
+					x: nodePosition.x,
+					y: nodePosition.y,
 				});
 				// make an edge from the clicked node to its subnodes
 				edges.add({
@@ -291,6 +292,8 @@ function expandNode(clickedNodeId) {
 					group: "source2",
 					selfNodeId: subnode.id,
 					parentNode: clickedNodeId,
+					x: nodePosition.x,
+					y: nodePosition.y,
 				});
 				// make an edge from the clicked node to its subnodes
 				edges.add({
@@ -329,6 +332,8 @@ function expandNode(clickedNodeId) {
 					group: "source2",
 					selfNodeId: subnode.id,
 					parentNode: clickedNodeId,
+					x: nodePosition.x,
+					y: nodePosition.y,
 				});
 				// make an edge from the clicked node to its subnodes
 				edges.add({
@@ -339,7 +344,6 @@ function expandNode(clickedNodeId) {
 			break;
 
 		case content_type:
-			console.log("node", node);
 			// clicked on content_type?
 			if (
 				content_typeArray.find((content_type) => content_type.id === node.id)
@@ -461,7 +465,6 @@ function initMap(nodesArray, edgesArray) {
 			chosen: {
 				node: (values, id, selected, hovering) => {
 					values.color = selectColor;
-					console.log(selected);
 					//nodes.get(id).parentNode.color = selectEdgeColor;
 				},
 			},

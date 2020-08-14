@@ -9,7 +9,7 @@ const section = "section";
 const content_type = "content_type";
 let mapStartingPoint = gd_goal;
 
-const edgeWidthOnSelect = 6;
+const edgeWidthOnSelect = 10;
 
 let nodes;
 let edges;
@@ -49,8 +49,6 @@ if (network) {
 				: expandNode(clickedNodeId);
 
 			// hightlight node
-
-			console.log(nodes.get(clickedNodeId));
 
 			// highlight parent
 			parentNodeId = nodes.get(clickedNodeId).parentNode;
