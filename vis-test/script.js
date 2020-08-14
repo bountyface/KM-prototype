@@ -1,6 +1,6 @@
 const nodesArray = [];
 const edgesArray = [];
-const edgeColor = "rgba(50,77,137,1)";
+const primaryColor = "rgba(50,77,137,1)";
 const selectColor = "rgba(235,220,21, 1)";
 const gd_goal = "gd_goal";
 const outcome = "outcome";

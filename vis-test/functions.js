@@ -7,95 +7,25 @@ function createNodesArray() {
 	switch (mapStartingPoint) {
 		case gd_goal:
 			console.log("case gd_goal");
-			// todo initMap()
-			const gd_goalNodesArray = [];
-			gd_goalNodesArray.push({
-				id: "mainNode:middle",
-				label: "Gender & Diversity Goal",
-				group: "source1",
-			});
-			// every other node around the center node
-			gd_goalArray.forEach((gd_goal) => {
-				gd_goalNodesArray.push({
-					id: gd_goal.id,
-					label: gd_goal.label,
-					group: "source2",
-					expanded: false,
-					color: "#FFFFFF",
-				});
-			});
-			console.log("gd_goalNodesArray", gd_goalNodesArray);
-			initMap(gd_goalNodesArray, edgesArray);
+			createMapStartingPoint("Gender & Diversity Goal", gd_goalArray);
 			break;
 		case outcome:
 			console.log("case field");
-			const outcomeNodesArray = [];
-			outcomeNodesArray.push({
-				id: "mainNode:middle",
-				label: "Outcome",
-				group: "source1",
-			});
-			outcomeArray.forEach((outcome) => {
-				outcomeNodesArray.push({
-					id: outcome.id,
-					label: outcome.label,
-					group: "source2",
-				});
-			});
-			initMap(outcomeNodesArray, edgesArray);
+			createMapStartingPoint("Outcome", outcomeArray);
 			break;
 		case field:
 			console.log("case field");
-			const fieldNodesArray = [];
-			fieldNodesArray.push({
-				id: "mainNode:middle",
-				label: "Field",
-				group: "source1",
-			});
-			fieldArray.forEach((field) => {
-				fieldNodesArray.push({
-					id: field.id,
-					label: field.label,
-					group: "source2",
-				});
-			});
-			initMap(fieldNodesArray, edgesArray);
+			createMapStartingPoint("Field", fieldArray);
 			break;
 
 		case section:
 			console.log("case section");
-			const sectionNodesArray = [];
-			sectionNodesArray.push({
-				id: "mainNode:middle",
-				label: "Section",
-				group: "source1",
-			});
-			sectionArray.forEach((section) => {
-				sectionNodesArray.push({
-					id: section.id,
-					label: section.label,
-					group: "source2",
-				});
-			});
-			initMap(sectionNodesArray, edgesArray);
+			createMapStartingPoint("Section", sectionArray);
 			break;
 
 		case content_type:
 			console.log("case content_type");
-			const content_typeNodesArray = [];
-			content_typeNodesArray.push({
-				id: "mainNode:middle",
-				label: "Content Type",
-				group: "source1",
-			});
-			content_typeArray.forEach((content_type) => {
-				content_typeNodesArray.push({
-					id: content_type.id,
-					label: content_type.label,
-					group: "source2",
-				});
-			});
-			initMap(content_typeNodesArray, edgesArray);
+			createMapStartingPoint("Content Type", content_typeArray);
 			break;
 	}
 }
@@ -110,6 +40,25 @@ function createMainEdges(array) {
 			to: node.id,
 		});
 	});
+}
+function createMapStartingPoint(label, array) {
+	const nodesArray = [];
+	nodesArray.push({
+		id: "mainNode:middle",
+		label: label,
+		group: "source1",
+	});
+	// every other node around the center node
+	array.forEach((element) => {
+		nodesArray.push({
+			id: element.id,
+			label: element.label,
+			group: "source2",
+			expanded: false,
+			color: "#FFFFFF",
+		});
+	});
+	initMap(nodesArray, edgesArray);
 }
 
 function fixNodesPositions() {
@@ -190,12 +139,9 @@ function expandNode(clickedNodeId) {
 		case gd_goal:
 			// clicked on gd_goal element?
 			if (gd_goalArray.find((element) => element.id === clickedNodeId)) {
-				console.log("hey");
-
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
-				console.log("clickedOn gd_Goal");
 			}
 
 			// clicked on section?
@@ -203,29 +149,7 @@ function expandNode(clickedNodeId) {
 				content_typeArray.forEach((content_type) => {
 					subnodeArray.push(content_type);
 				});
-				console.log("clickedOn section");
 			}
-
-			// iterate through subnodeArray
-			subnodeArray.forEach((subnode) => {
-				// return, if node is already on the network
-
-				// make a node for each article in subnodeArray
-				nodes.add({
-					id: subnode.id + "-" + clickedNodeId,
-					label: subnode.label,
-					group: "source2",
-					selfNodeId: subnode.id,
-					parentNode: clickedNodeId,
-					x: nodePosition.x,
-					y: nodePosition.y,
-				}),
-					// make an edge from the clicked node to its subnodes
-					edges.add({
-						from: clickedNodeId,
-						to: subnode.id + "-" + clickedNodeId,
-					});
-			});
 			break;
 
 		case outcome:
@@ -235,34 +159,13 @@ function expandNode(clickedNodeId) {
 				fieldArray.forEach((field) => {
 					subnodeArray.push(field);
 				});
-				console.log("clickedOn outcome");
 			}
 			// clicked on field?
 			if (fieldArray.find((field) => field.id === node.selfNodeId)) {
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
-				console.log("clickedOn field");
 			}
-
-			// iterate through subnodeArray
-			subnodeArray.forEach((subnode) => {
-				// make a node for each article in subnodeArray
-				nodes.add({
-					id: subnode.id + "-" + clickedNodeId,
-					label: subnode.label,
-					group: "source2",
-					selfNodeId: subnode.id,
-					parentNode: clickedNodeId,
-					x: nodePosition.x,
-					y: nodePosition.y,
-				});
-				// make an edge from the clicked node to its subnodes
-				edges.add({
-					from: clickedNodeId,
-					to: subnode.id + "-" + clickedNodeId,
-				});
-			});
 			break;
 
 		case field:
@@ -272,7 +175,6 @@ function expandNode(clickedNodeId) {
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
-				console.log("clickedOn field");
 			}
 
 			// clicked on section?
@@ -280,27 +182,7 @@ function expandNode(clickedNodeId) {
 				content_typeArray.forEach((content_type) => {
 					subnodeArray.push(content_type);
 				});
-				console.log("clickedOn content_type");
 			}
-
-			// iterate through subnodeArray
-			subnodeArray.forEach((subnode) => {
-				// make a node for each article in subnodeArray
-				nodes.add({
-					id: subnode.id + "-" + clickedNodeId,
-					label: subnode.label,
-					group: "source2",
-					selfNodeId: subnode.id,
-					parentNode: clickedNodeId,
-					x: nodePosition.x,
-					y: nodePosition.y,
-				});
-				// make an edge from the clicked node to its subnodes
-				edges.add({
-					from: clickedNodeId,
-					to: subnode.id + "-" + clickedNodeId,
-				});
-			});
 			break;
 
 		case section:
@@ -311,9 +193,8 @@ function expandNode(clickedNodeId) {
 				fieldArray.forEach((field) => {
 					subnodeArray.push(field);
 				});
-				console.log("clickedOn section");
 			}
-			/* ToDo: Dritte Kategorie von Sebastian und Cathleen
+			/* @ToDo: Dritte Kategorie von Sebastian und Cathleen
 			// clicked on section?
 			if (sectionArray.find((section) => section.id === node.selfNodeId)) {
 				content_typeArray.forEach((content_type) => {
@@ -322,25 +203,6 @@ function expandNode(clickedNodeId) {
 				console.log("clickedOn content_type");
 			}
 			*/
-
-			// iterate through subnodeArray
-			subnodeArray.forEach((subnode) => {
-				// make a node for each article in subnodeArray
-				nodes.add({
-					id: subnode.id + "-" + clickedNodeId,
-					label: subnode.label,
-					group: "source2",
-					selfNodeId: subnode.id,
-					parentNode: clickedNodeId,
-					x: nodePosition.x,
-					y: nodePosition.y,
-				});
-				// make an edge from the clicked node to its subnodes
-				edges.add({
-					from: clickedNodeId,
-					to: subnode.id + "-" + clickedNodeId,
-				});
-			});
 			break;
 
 		case content_type:
@@ -361,25 +223,28 @@ function expandNode(clickedNodeId) {
 				});
 				console.log("clickedOn field");
 			}
-
-			// iterate through subnodeArray
-			subnodeArray.forEach((subnode) => {
-				// make a node for each article in subnodeArray
-				nodes.add({
-					id: subnode.id + "-" + clickedNodeId,
-					label: subnode.label,
-					group: "source2",
-					selfNodeId: subnode.id,
-					parentNode: clickedNodeId,
-				});
-				// make an edge from the clicked node to its subnodes
-				edges.add({
-					from: clickedNodeId,
-					to: subnode.id + "-" + clickedNodeId,
-				});
-			});
 			break;
 	}
+	// iterate through subnodeArray
+	subnodeArray.forEach((subnode) => {
+		// return, if node is already on the network
+
+		// make a node for each article in subnodeArray
+		nodes.add({
+			id: subnode.id + "-" + clickedNodeId,
+			label: subnode.label,
+			group: "source2",
+			selfNodeId: subnode.id,
+			parentNode: clickedNodeId,
+			x: nodePosition.x,
+			y: nodePosition.y,
+		}),
+			// make an edge from the clicked node to its subnodes
+			edges.add({
+				from: clickedNodeId,
+				to: subnode.id + "-" + clickedNodeId,
+			});
+	});
 }
 
 function collapseNode(nodeId) {
@@ -491,7 +356,7 @@ function initMap(nodesArray, edgesArray) {
 			width: 2,
 			length: 250,
 			color: {
-				color: edgeColor,
+				color: primaryColor,
 			},
 			chosen: {
 				label: false,
@@ -509,7 +374,7 @@ function initMap(nodesArray, edgesArray) {
 		groups: {
 			source1: {
 				color: {
-					background: "rgba(50,77,137,1)",
+					background: primaryColor,
 					border: "navy",
 				},
 				font: {
@@ -527,6 +392,7 @@ function initMap(nodesArray, edgesArray) {
 					//dragNodes: false, // do not allow dragging node
 					//
 				},
+				chosen: false,
 			},
 			source2: {
 				color: {
