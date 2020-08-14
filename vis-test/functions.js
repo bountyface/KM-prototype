@@ -165,15 +165,11 @@ function growParentEdgeOfNode(nodeId) {
 
 function expandNode(clickedNodeId) {
 	const node = nodes.get(clickedNodeId);
-	console.log("getNewPosition", network.getPosition(clickedNodeId));
-
 	// set origin position into array to collapse it later
 	const oldNodePosition = network.getPosition(clickedNodeId);
 
 	nodes.update({
 		id: clickedNodeId,
-		oldX: oldNodePosition.x,
-		oldY: oldNodePosition.y,
 		expanded: true,
 	});
 
@@ -389,7 +385,7 @@ function collapseNode(nodeId) {
 
 	// getConnectedNodes only returns an array of the connected nodes on the first call
 	const parentNode = network.getConnectedNodes(edgeId)[0];
-	console.log("parentNode - sometimes undefined?!", parentNode);
+	//console.log("parentNode - sometimes undefined?!", parentNode);
 
 	edges.update({
 		id: edgeId[0],
@@ -465,7 +461,7 @@ function initMap(nodesArray, edgesArray) {
 			chosen: {
 				node: (values, id, selected, hovering) => {
 					values.color = selectColor;
-
+					console.log(selected);
 					//nodes.get(id).parentNode.color = selectEdgeColor;
 				},
 			},

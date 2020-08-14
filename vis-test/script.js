@@ -42,17 +42,38 @@ if (network) {
 				);
 				document.querySelector(".report").innerHTML = JSON.stringify(article);
 			}
-			parentId = nodes.get(clickedNodeId).parentNode;
-			if (parentId) {
-				parent = nodes.get(parentId);
 
-				console.log(parent);
-				console.log("connected edges", network.getConnectedEdges(parentId));
+			// check if node is already expanded if not
+			nodes.get(clickedNodeId).expanded
+				? collapseNode(clickedNodeId)
+				: expandNode(clickedNodeId);
+
+			// hightlight node
+
+			console.log(nodes.get(clickedNodeId));
+
+			// highlight parent
+			parentNodeId = nodes.get(clickedNodeId).parentNode;
+			if (parentNodeId) {
+				parent = nodes.get(parentNodeId);
 				// parent edge
-				parentEdgeId = network.getConnectedEdges(parentId)[0];
+				parentEdgeId = network.getConnectedEdges(parentNodeId)[0];
 
+				//network.selectNodes([parentNodeId], false);
+				//network.selectEdges([parentEdgeId]);
+				network.setSelection(
+					{
+						nodes: [clickedNodeId, parentNodeId],
+						edges: [network.getConnectedEdges(clickedNodeId)[0], parentEdgeId],
+					},
+					{
+						highlightEdges: false,
+					}
+				);
+
+				/*
 				nodes.update({
-					id: parentId,
+					id: parentNodeId,
 					color: { background: selectColor },
 				});
 
@@ -60,12 +81,8 @@ if (network) {
 					id: parentEdgeId,
 					color: selectColor,
 					width: edgeWidthOnSelect,
-				});
+				});*/
 			}
-			// check if node is already expanded if not
-			nodes.get(clickedNodeId).expanded
-				? collapseNode(clickedNodeId)
-				: expandNode(clickedNodeId);
 		}
 	});
 
