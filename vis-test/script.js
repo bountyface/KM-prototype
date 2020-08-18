@@ -10,6 +10,7 @@ const content_type = "content_type";
 let mapStartingPoint = gd_goal;
 
 const edgeLength = 50;
+const edgeLengthExpanded = 150;
 const edgeWidthOnSelect = 10;
 
 let nodes;
@@ -43,7 +44,7 @@ if (network) {
 				);
 				document.querySelector(".report").innerHTML = JSON.stringify(article);
 			}
-
+			console.log("allNodes", nodes.get());
 			// check if node is already expanded if not
 			nodes.get(clickedNodeId).expanded
 				? collapseNode(clickedNodeId)

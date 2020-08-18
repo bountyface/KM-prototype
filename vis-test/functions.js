@@ -47,6 +47,7 @@ function createMapStartingPoint(label, array) {
 		id: "mainNode:middle",
 		label: label,
 		group: "source1",
+		chosen: false,
 	});
 	// every other node around the center node
 	array.forEach((element) => {
@@ -87,7 +88,7 @@ function growParentEdgeOfNode(nodeId) {
 		id: edgeId[0],
 		from: parentNode,
 		to: nodeId,
-		length: 400,
+		length: edgeLengthExpanded,
 		physics: true,
 		fixed: {
 			x: false,
@@ -389,7 +390,7 @@ function initMap(nodesArray, edgesArray) {
 					//dragNodes: false, // do not allow dragging node
 					//
 				},
-				chosen: false,
+				//chosen: false,
 			},
 			source2: {
 				color: {
