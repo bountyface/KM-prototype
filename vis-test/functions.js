@@ -347,24 +347,39 @@ function updateContextArea(nodeId) {
 
 	contextArea.innerHTML = "";
 	// get articles for:
+
 	// - grandparentnode
-	// - parent and grandparentnode
-	// - self, parent and grandparentnode
 	if (!node.parentNode) {
 		console.log("ich bin level 1");
-		filteredArticles = articlesArray.filter(
-			(article) => article.gd_goal === nodeId
-		);
-		console.log(filteredArticles);
-		const text = document.createTextNode(filteredArticles[0].title);
-		textType.appendChild(text);
-		contextArea.appendChild(textType);
-	}
 
+		switch (mapStartingPoint) {
+			case gd_goal:
+				if (gd_goalArray.find((gd_goal) => gd_goal.id === nodeId)) {
+					filteredArticles = articlesArray.filter(
+						(article) => article.gd_goal === nodeId
+					);
+				}
+
+				break;
+
+			default:
+				break;
+		}
+
+		console.log(filteredArticles);
+
+		// for every article, create a list entry in the context area
+		filteredArticles.forEach((article) => {
+			let li = document.createElement("li");
+			contextArea.appendChild(li);
+			li.innerHTML += article.title;
+		});
+	}
+	// - parent and grandparentnode
 	if (node.parentNode && !nodes.get(node.parentNode).parentNode) {
 		console.log("ich bin level 2");
 	}
-
+	// - self, parent and grandparentnode
 	if (node.parentNode && nodes.get(node.parentNode).parentNode) {
 		console.log("ich bin level 3");
 	}
