@@ -255,7 +255,7 @@ function collapseNode(nodeId) {
 
 	edges.update({
 		id: edgeId[0],
-		length: 250,
+		length: edgeLength,
 		physics: true,
 		fixed: {
 			x: false,
@@ -329,6 +329,7 @@ function initMap(nodesArray, edgesArray) {
 					values.color = selectColor;
 					//nodes.get(id).parentNode.color = selectEdgeColor;
 				},
+				label: false,
 			},
 			font: {
 				//size: 12,
@@ -340,18 +341,17 @@ function initMap(nodesArray, edgesArray) {
 				max: 80,
 
 				label: {
-					min: 12,
-					max: 17,
+					min: 16,
+					max: 25,
 					enabled: true,
 				},
 			},
 			shape: "circle",
-			physics: true,
 			widthConstraint: 90,
 		},
 		edges: {
 			width: 2,
-			length: 250,
+			length: edgeLength,
 			color: {
 				color: primaryColor,
 			},
