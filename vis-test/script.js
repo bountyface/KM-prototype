@@ -20,6 +20,8 @@ let network;
 // radiobutton categories activated by default
 document.getElementById("gd_goal_radio").checked = true;
 
+createTestArticles();
+
 // init the first view
 
 //create nodesArray from data
@@ -52,7 +54,6 @@ if (network) {
 			// hightlight node/nodes
 			highlightPath(clickedNodeId);
 
-			console.log(clickedNode);
 			// show corresponding article titles in the context-area
 			updateContextArea(clickedNodeId);
 		}

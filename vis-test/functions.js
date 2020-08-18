@@ -488,3 +488,40 @@ function initMap(nodesArray, edgesArray) {
 		network.setData(data);
 	}
 }
+
+function createTestArticles() {
+	const numberOfArticles = 100;
+	gd_goal_index = 0;
+	outcome_index = 0;
+	field_index = 0;
+	section_index = 0;
+	content_type_index = 0;
+
+	for (let index = 6; index < numberOfArticles + 1; index++) {
+		let article = {
+			id: index,
+			title: "Title " + index,
+			content: "Lorem ipsum dolor...",
+			gd_goal: gd_goalArray[gd_goal_index].id,
+			outcome: outcomeArray[outcome_index].id,
+			field: fieldArray[field_index].id,
+			section: sectionArray[section_index].id,
+			content_type: content_typeArray[content_type_index].id,
+		};
+		articlesArray.push(article);
+
+		gd_goal_index++;
+		outcome_index++;
+		field_index++;
+		section_index++;
+		content_type_index++;
+
+		if (gd_goal_index > 4) gd_goal_index = 0;
+		if (outcome_index > 2) outcome_index = 0;
+		if (field_index > 2) field_index = 0;
+		if (section_index > 6) section_index = 0;
+		if (content_type_index > 5) content_type_index = 0;
+	}
+
+	console.log(articlesArray);
+}
