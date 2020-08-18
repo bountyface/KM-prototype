@@ -47,7 +47,6 @@ function createMapStartingPoint(label, array) {
 		id: "mainNode:middle",
 		label: label,
 		group: "source1",
-		chosen: false,
 	});
 	// every other node around the center node
 	array.forEach((element) => {
@@ -390,7 +389,7 @@ function initMap(nodesArray, edgesArray) {
 					//dragNodes: false, // do not allow dragging node
 					//
 				},
-				//chosen: false,
+				chosen: false,
 			},
 			source2: {
 				color: {
@@ -415,6 +414,7 @@ function initMap(nodesArray, edgesArray) {
 	// create network
 	if (!network) {
 		network = new vis.Network(container, data, options);
+	} else {
+		network.setData(data);
 	}
-	network.setData(data);
 }
