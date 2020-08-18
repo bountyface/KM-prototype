@@ -194,15 +194,13 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(field);
 				});
 			}
-			/* @ToDo: Dritte Kategorie von Sebastian und Cathleen
-			// clicked on section?
-			if (sectionArray.find((section) => section.id === node.selfNodeId)) {
-				content_typeArray.forEach((content_type) => {
-					subnodeArray.push(content_type);
+			// clicked on field?
+			if (fieldArray.find((section) => section.id === node.selfNodeId)) {
+				outcomeArray.forEach((outcome) => {
+					subnodeArray.push(outcome);
 				});
-				console.log("clickedOn content_type");
 			}
-			*/
+
 			break;
 
 		case content_type:
@@ -213,7 +211,6 @@ function expandNode(clickedNodeId) {
 				fieldArray.forEach((field) => {
 					subnodeArray.push(field);
 				});
-				console.log("clickedOn content_type");
 			}
 
 			// clicked on field?
@@ -221,7 +218,6 @@ function expandNode(clickedNodeId) {
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
-				console.log("clickedOn field");
 			}
 			break;
 	}
@@ -238,6 +234,7 @@ function expandNode(clickedNodeId) {
 			parentNode: clickedNodeId,
 			x: nodePosition.x,
 			y: nodePosition.y,
+			color: "#FFFFFF",
 		}),
 			// make an edge from the clicked node to its subnodes
 			edges.add({
