@@ -50,46 +50,8 @@ if (network) {
 				? collapseNode(clickedNodeId)
 				: expandNode(clickedNodeId);
 
-			// hightlight node
-
-			// highlight parent
-			parentNodeId = nodes.get(clickedNodeId).parentNode;
-			if (parentNodeId) {
-				parent = nodes.get(parentNodeId);
-				// parent edge
-				parentEdgeId = network.getConnectedEdges(parentNodeId)[0];
-
-				// check if node has grandParent node
-				if (nodes.get(parentNodeId).parentNode) {
-					grandParentId = nodes.get(parentNodeId).parentNode;
-					network.setSelection(
-						{
-							nodes: [clickedNodeId, parentNodeId, grandParentId],
-							edges: [
-								network.getConnectedEdges(clickedNodeId)[0],
-								parentEdgeId,
-								network.getConnectedEdges(grandParentId)[0],
-							],
-						},
-						{
-							highlightEdges: false,
-						}
-					);
-				} else {
-					network.setSelection(
-						{
-							nodes: [clickedNodeId, parentNodeId],
-							edges: [
-								network.getConnectedEdges(clickedNodeId)[0],
-								parentEdgeId,
-							],
-						},
-						{
-							highlightEdges: false,
-						}
-					);
-				}
-			}
+			// hightlight node/nodes
+			highlightPath(clickedNodeId);
 		}
 	});
 
