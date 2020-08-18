@@ -44,7 +44,6 @@ if (network) {
 				);
 				document.querySelector(".report").innerHTML = JSON.stringify(article);
 			}
-			console.log("allNodes", nodes.get());
 			// check if node is already expanded if not
 			nodes.get(clickedNodeId).expanded
 				? collapseNode(clickedNodeId)
@@ -52,6 +51,10 @@ if (network) {
 
 			// hightlight node/nodes
 			highlightPath(clickedNodeId);
+
+			console.log(clickedNode);
+			// show corresponding article titles in the context-area
+			updateContextArea(clickedNodeId);
 		}
 	});
 

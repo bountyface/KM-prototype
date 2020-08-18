@@ -299,8 +299,8 @@ function collapseNode(nodeId) {
 		}
 	});
 }
-function highlightPath(clickedNodeId) {
-	parentNodeId = nodes.get(clickedNodeId).parentNode;
+function highlightPath(nodeId) {
+	parentNodeId = nodes.get(nodeId).parentNode;
 	if (parentNodeId) {
 		parent = nodes.get(parentNodeId);
 		// parent edge
@@ -311,9 +311,9 @@ function highlightPath(clickedNodeId) {
 			const grandParentId = nodes.get(parentNodeId).parentNode;
 			network.setSelection(
 				{
-					nodes: [clickedNodeId, parentNodeId, grandParentId],
+					nodes: [nodeId, parentNodeId, grandParentId],
 					edges: [
-						network.getConnectedEdges(clickedNodeId)[0],
+						network.getConnectedEdges(nodeId)[0],
 						parentEdgeId,
 						network.getConnectedEdges(grandParentId)[0],
 					],
@@ -325,14 +325,48 @@ function highlightPath(clickedNodeId) {
 		} else {
 			network.setSelection(
 				{
-					nodes: [clickedNodeId, parentNodeId],
-					edges: [network.getConnectedEdges(clickedNodeId)[0], parentEdgeId],
+					nodes: [nodeId, parentNodeId],
+					edges: [network.getConnectedEdges(nodeId)[0], parentEdgeId],
 				},
 				{
 					highlightEdges: false,
 				}
 			);
 		}
+	}
+}
+
+function updateContextArea(nodeId) {
+	node = nodes.get(nodeId);
+
+	const contextArea = document.getElementById("context-area");
+
+	const textType = document.createElement("li");
+
+	let filteredArticles = [];
+
+	contextArea.innerHTML = "";
+	// get articles for:
+	// - grandparentnode
+	// - parent and grandparentnode
+	// - self, parent and grandparentnode
+	if (!node.parentNode) {
+		console.log("ich bin level 1");
+		filteredArticles = articlesArray.filter(
+			(article) => article.gd_goal === nodeId
+		);
+		console.log(filteredArticles);
+		const text = document.createTextNode(filteredArticles[0].title);
+		textType.appendChild(text);
+		contextArea.appendChild(textType);
+	}
+
+	if (node.parentNode && !nodes.get(node.parentNode).parentNode) {
+		console.log("ich bin level 2");
+	}
+
+	if (node.parentNode && nodes.get(node.parentNode).parentNode) {
+		console.log("ich bin level 3");
 	}
 }
 
