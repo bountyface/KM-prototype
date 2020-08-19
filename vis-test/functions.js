@@ -348,7 +348,7 @@ function updateContextArea(nodeId) {
 	contextArea.innerHTML = "";
 	// get articles for:
 
-	// - grandparentnode
+	// - self
 	if (!node.parentNode) {
 		console.log("ich bin level 1");
 
@@ -365,25 +365,61 @@ function updateContextArea(nodeId) {
 			default:
 				break;
 		}
-
-		console.log(filteredArticles);
-
-		// for every article, create a list entry in the context area
-		filteredArticles.forEach((article) => {
-			let div = document.createElement("div");
-			div.classList.add("context-element");
-			contextArea.appendChild(div);
-			div.innerHTML += article.title;
-		});
 	}
-	// - parent and grandparentnode
+	// - self and parent
 	if (node.parentNode && !nodes.get(node.parentNode).parentNode) {
 		console.log("ich bin level 2");
+		switch (mapStartingPoint) {
+			case gd_goal:
+				if (sectionArray.find((section) => section.id === node.selfNodeId)) {
+					console.log(node);
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.gd_goal === node.parentNode &&
+							article.section === node.selfNodeId
+					);
+				}
+				break;
+
+			default:
+				break;
+		}
 	}
 	// - self, parent and grandparentnode
 	if (node.parentNode && nodes.get(node.parentNode).parentNode) {
 		console.log("ich bin level 3");
+		switch (mapStartingPoint) {
+			case gd_goal:
+				if (
+					content_typeArray.find(
+						(content_type) => content_type.id === node.selfNodeId
+					)
+				) {
+					console.log(node);
+					let parent = nodes.get(nodes.get(nodeId).parentNode).selfNodeId;
+					let grandParent = nodes.get(nodes.get(nodeId).parentNode).parentNode;
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.gd_goal === grandParent &&
+							article.section === parent &&
+							article.content_type === node.selfNodeId
+					);
+				}
+				break;
+
+			default:
+				break;
+		}
 	}
+
+	// for every article, create a list entry in the context area
+	filteredArticles.forEach((article) => {
+		let div = document.createElement("div");
+		div.classList.add("context-element");
+		contextArea.appendChild(div);
+		div.innerHTML += article.title;
+	});
+	console.log("filteredArticles", filteredArticles);
 }
 
 function initMap(nodesArray, edgesArray) {
@@ -506,7 +542,7 @@ function initMap(nodesArray, edgesArray) {
 }
 
 function createTestArticles() {
-	const numberOfArticles = 50;
+	const numberOfArticles = 400;
 	gd_goal_index = 0;
 	outcome_index = 0;
 	field_index = 0;
@@ -532,6 +568,7 @@ function createTestArticles() {
 		section_index++;
 		content_type_index++;
 
+		// if index goes bigger than the arraylength of i.e. gd_goalArray, reset to 0 and iterate again
 		if (gd_goal_index > 4) gd_goal_index = 0;
 		if (outcome_index > 2) outcome_index = 0;
 		if (field_index > 2) field_index = 0;
