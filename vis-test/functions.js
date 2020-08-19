@@ -59,6 +59,16 @@ function createMapStartingPoint(label, array) {
 		});
 	});
 	initMap(nodesArray, edgesArray);
+
+	// add numbers
+	array.forEach((element) => {
+		let numberOfArticles = filterArticles(element.id).length;
+
+		nodes.update({
+			id: element.id,
+			label: element.label + "\n[" + numberOfArticles + "]",
+		});
+	});
 }
 
 function fixNodesPositions() {
@@ -364,7 +374,6 @@ function filterArticles(nodeId) {
 		switch (mapStartingPoint) {
 			case gd_goal:
 				if (sectionArray.find((section) => section.id === node.selfNodeId)) {
-					console.log(node);
 					filteredArticles = articlesArray.filter(
 						(article) =>
 							article.gd_goal === node.parentNode &&
@@ -388,7 +397,6 @@ function filterArticles(nodeId) {
 						(content_type) => content_type.id === node.selfNodeId
 					)
 				) {
-					console.log(node);
 					let parent = nodes.get(nodes.get(nodeId).parentNode).selfNodeId;
 					let grandParent = nodes.get(nodes.get(nodeId).parentNode).parentNode;
 					filteredArticles = articlesArray.filter(
@@ -404,6 +412,7 @@ function filterArticles(nodeId) {
 				break;
 		}
 	}
+	console.log(filteredArticles.length);
 	return filteredArticles;
 }
 function updateContextArea(nodeId) {
@@ -541,7 +550,7 @@ function initMap(nodesArray, edgesArray) {
 }
 
 function createTestArticles() {
-	const numberOfArticles = 400;
+	const numberOfArticles = 477;
 	gd_goal_index = 0;
 	outcome_index = 0;
 	field_index = 0;
@@ -576,4 +585,12 @@ function createTestArticles() {
 	}
 
 	console.log(articlesArray);
+}
+
+function getFilteredArticlesFromIds(nodeId1, nodeId2, nodeId3) {
+	let filteredArticles = [];
+
+	if (nodeId1 && !nodeId2 && nodeId3) {
+		articlesArray.filter;
+	}
 }
