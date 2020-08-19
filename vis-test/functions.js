@@ -335,17 +335,9 @@ function highlightPath(nodeId) {
 		}
 	}
 }
-
-function updateContextArea(nodeId) {
+function filterArticles(nodeId) {
 	node = nodes.get(nodeId);
-
-	const contextArea = document.getElementById("context-area");
-
-	const textType = document.createElement("li");
-
 	let filteredArticles = [];
-
-	contextArea.innerHTML = "";
 	// get articles for:
 
 	// - self
@@ -359,7 +351,6 @@ function updateContextArea(nodeId) {
 						(article) => article.gd_goal === nodeId
 					);
 				}
-
 				break;
 
 			default:
@@ -369,6 +360,7 @@ function updateContextArea(nodeId) {
 	// - self and parent
 	if (node.parentNode && !nodes.get(node.parentNode).parentNode) {
 		console.log("ich bin level 2");
+
 		switch (mapStartingPoint) {
 			case gd_goal:
 				if (sectionArray.find((section) => section.id === node.selfNodeId)) {
@@ -388,6 +380,7 @@ function updateContextArea(nodeId) {
 	// - self, parent and grandparentnode
 	if (node.parentNode && nodes.get(node.parentNode).parentNode) {
 		console.log("ich bin level 3");
+
 		switch (mapStartingPoint) {
 			case gd_goal:
 				if (
@@ -411,7 +404,14 @@ function updateContextArea(nodeId) {
 				break;
 		}
 	}
+	return filteredArticles;
+}
+function updateContextArea(nodeId) {
+	let filteredArticles = filterArticles(nodeId);
 
+	const contextArea = document.getElementById("context-area");
+
+	contextArea.innerHTML = "";
 	// for every article, create a list entry in the context area
 	filteredArticles.forEach((article) => {
 		let div = document.createElement("div");
@@ -419,7 +419,6 @@ function updateContextArea(nodeId) {
 		contextArea.appendChild(div);
 		div.innerHTML += article.title;
 	});
-	console.log("filteredArticles", filteredArticles);
 }
 
 function initMap(nodesArray, edgesArray) {
