@@ -370,9 +370,10 @@ function updateContextArea(nodeId) {
 
 		// for every article, create a list entry in the context area
 		filteredArticles.forEach((article) => {
-			let li = document.createElement("li");
-			contextArea.appendChild(li);
-			li.innerHTML += article.title;
+			let div = document.createElement("div");
+			div.classList.add("context-element");
+			contextArea.appendChild(div);
+			div.innerHTML += article.title;
 		});
 	}
 	// - parent and grandparentnode

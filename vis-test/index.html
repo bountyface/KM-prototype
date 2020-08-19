@@ -98,9 +98,6 @@
 				background: white;
 			}
 
-			.radioText {
-			}
-
 			.button {
 				background-color: rgba(50, 77, 137, 1);
 				border: none;
@@ -140,6 +137,11 @@
 			.context {
 				width: 30%;
 				vertical-align: top;
+			}
+
+			.context-element {
+				font-size: 50px;
+				margin-left: 3%;
 			}
 		</style>
 	</head>
@@ -187,13 +189,20 @@
 			<div class="network-and-context">
 				<div class="network">Network Graph</div>
 				<div class="context">
+					<div id="context-area">
+						<div class="context-element">Hi</div>
+					</div>
+
+					<!--
 					<ul id="context-area">
+				
 						<li>Titel 1</li>
 						<li>Titel 2</li>
 						<li>Titel 3</li>
 					</ul>
+					 -->
 				</div>
-				<!--
+				<!--	
         <div class="context">
             <button id="focusOnPublicTransport" type="button">
                 Set focus to Public Transport
