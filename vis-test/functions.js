@@ -152,6 +152,8 @@ function expandNode(clickedNodeId) {
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
 			}
 
 			// clicked on section?
@@ -159,6 +161,7 @@ function expandNode(clickedNodeId) {
 				content_typeArray.forEach((content_type) => {
 					subnodeArray.push(content_type);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 			}
 			break;
 
@@ -169,12 +172,14 @@ function expandNode(clickedNodeId) {
 				fieldArray.forEach((field) => {
 					subnodeArray.push(field);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 			}
 			// clicked on field?
 			if (fieldArray.find((field) => field.id === node.selfNodeId)) {
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 			}
 			break;
 
@@ -185,6 +190,7 @@ function expandNode(clickedNodeId) {
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 			}
 
 			// clicked on section?
@@ -192,6 +198,7 @@ function expandNode(clickedNodeId) {
 				content_typeArray.forEach((content_type) => {
 					subnodeArray.push(content_type);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 			}
 			break;
 
@@ -209,6 +216,7 @@ function expandNode(clickedNodeId) {
 				outcomeArray.forEach((outcome) => {
 					subnodeArray.push(outcome);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 			}
 
 			break;
@@ -221,6 +229,7 @@ function expandNode(clickedNodeId) {
 				fieldArray.forEach((field) => {
 					subnodeArray.push(field);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 			}
 
 			// clicked on field?
@@ -228,9 +237,13 @@ function expandNode(clickedNodeId) {
 				sectionArray.forEach((section) => {
 					subnodeArray.push(section);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 			}
 			break;
 	}
+}
+
+function applySubnodeArrayToNetwork(subnodeArray, clickedNodeId) {
 	// iterate through subnodeArray
 	subnodeArray.forEach((subnode) => {
 		// return, if node is already on the network
@@ -242,8 +255,6 @@ function expandNode(clickedNodeId) {
 			group: "source2",
 			selfNodeId: subnode.id,
 			parentNode: clickedNodeId,
-			x: nodePosition.x,
-			y: nodePosition.y,
 			color: "#FFFFFF",
 		}),
 			// make an edge from the clicked node to its subnodes
@@ -587,10 +598,15 @@ function createTestArticles() {
 	console.log(articlesArray);
 }
 
-function getFilteredArticlesFromIds(nodeId1, nodeId2, nodeId3) {
-	let filteredArticles = [];
-
-	if (nodeId1 && !nodeId2 && nodeId3) {
-		articlesArray.filter;
-	}
+function showNumberOfArticlesOnSubnode(nodeId) {
+	let subnodes = network.getConnectedNodes(nodeId);
+	subnodes.forEach((subnode) => {
+		if (subnode === "mainNode:middle") return;
+		console.log(subnode);
+		let numberOfArticles = filterArticles(subnode).length;
+		nodes.update({
+			id: subnode,
+			label: nodes.get(subnode).label + "\n[" + numberOfArticles + "]",
+		});
+	});
 }
