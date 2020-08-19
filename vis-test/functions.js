@@ -506,7 +506,7 @@ function initMap(nodesArray, edgesArray) {
 }
 
 function createTestArticles() {
-	const numberOfArticles = 100;
+	const numberOfArticles = 50;
 	gd_goal_index = 0;
 	outcome_index = 0;
 	field_index = 0;
