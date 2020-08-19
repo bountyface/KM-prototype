@@ -162,11 +162,11 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(content_type);
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
 			}
 			break;
 
 		case outcome:
-			console.log("node", node);
 			// clicked on outcome?
 			if (outcomeArray.find((outcome) => outcome.id === node.id)) {
 				fieldArray.forEach((field) => {
@@ -184,7 +184,6 @@ function expandNode(clickedNodeId) {
 			break;
 
 		case field:
-			console.log("node", node);
 			// clicked on field?
 			if (fieldArray.find((field) => field.id === node.id)) {
 				sectionArray.forEach((section) => {
@@ -203,8 +202,6 @@ function expandNode(clickedNodeId) {
 			break;
 
 		case section:
-			console.log("node", node);
-
 			// clicked on section?
 			if (sectionArray.find((section) => section.id === node.id)) {
 				fieldArray.forEach((field) => {
@@ -423,7 +420,6 @@ function filterArticles(nodeId) {
 				break;
 		}
 	}
-	console.log(filteredArticles.length);
 	return filteredArticles;
 }
 function updateContextArea(nodeId) {
@@ -600,13 +596,16 @@ function createTestArticles() {
 
 function showNumberOfArticlesOnSubnode(nodeId) {
 	let subnodes = network.getConnectedNodes(nodeId);
-	subnodes.forEach((subnode) => {
-		if (subnode === "mainNode:middle") return;
-		console.log(subnode);
-		let numberOfArticles = filterArticles(subnode).length;
-		nodes.update({
-			id: subnode,
-			label: nodes.get(subnode).label + "\n[" + numberOfArticles + "]",
-		});
+	console.log(subnodes);
+
+	subnodes.forEach((subnodeId) => {
+		if (subnodeId === "mainNode:middle") return;
+		if (!nodes.get(subnodeId).parentNode == subnodeId) {
+			let numberOfArticles = filterArticles(subnodeId).length;
+			nodes.update({
+				id: subnodeId,
+				label: nodes.get(subnodeId).label + "\n[" + numberOfArticles + "]",
+			});
+		}
 	});
 }
