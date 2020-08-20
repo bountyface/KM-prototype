@@ -456,7 +456,7 @@ function updateContextArea(nodeId) {
 	});
 
 	let div2 = document.createElement("div");
-	div2.classList.add("context-head");
+	div2.classList.add("context-head-element");
 	contextHead.appendChild(div2);
 	div2.innerHTML = nodes.get(nodeId).path;
 }
