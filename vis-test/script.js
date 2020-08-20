@@ -9,8 +9,8 @@ const section = "section";
 const content_type = "content_type";
 let mapStartingPoint = gd_goal;
 
-const edgeLength = 25;
-const edgeLengthExpanded = 50;
+const edgeLength = 100;
+const edgeLengthExpanded = 150;
 const edgeWidthOnSelect = 10;
 
 let nodes;

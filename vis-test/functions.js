@@ -46,6 +46,7 @@ function createMapStartingPoint(label, array) {
 	nodesArray.push({
 		id: "mainNode:middle",
 		label: label,
+		pathlabel: label,
 		group: "source1",
 	});
 	// every other node around the center node
@@ -53,6 +54,8 @@ function createMapStartingPoint(label, array) {
 		nodesArray.push({
 			id: element.id,
 			label: element.label,
+			pathlabel: element.label,
+			path: label + " - " + element.label,
 			group: "source2",
 			expanded: false,
 			color: "#FFFFFF",
@@ -154,6 +157,7 @@ function expandNode(clickedNodeId) {
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 				showNumberOfArticlesOnSubnode(clickedNodeId);
+				console.log(nodes.get(clickedNodeId));
 			}
 
 			// clicked on section?
@@ -163,6 +167,29 @@ function expandNode(clickedNodeId) {
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 				showNumberOfArticlesOnSubnode(clickedNodeId);
+				console.log(nodes.get(clickedNodeId));
+			}
+
+			if (content_typeArray.find((element) => element.id === node.selfNodeId)) {
+				console.log("clicked on content_type");
+
+				let grandparentPathLabel = nodes.get(
+					nodes.get(nodes.get(clickedNodeId).parentNode).parentNode
+				).pathlabel;
+				let parentPathLabel = nodes.get(nodes.get(clickedNodeId).parentNode)
+					.pathlabel;
+				let selfPathLabel = nodes.get(clickedNodeId).pathlabel;
+
+				nodes.update({
+					id: clickedNodeId,
+					path:
+						grandparentPathLabel +
+						" - " +
+						parentPathLabel +
+						" - " +
+						selfPathLabel,
+				});
+				console.log(nodes.get(clickedNodeId));
 			}
 			break;
 
@@ -241,18 +268,25 @@ function expandNode(clickedNodeId) {
 }
 
 function applySubnodeArrayToNetwork(subnodeArray, clickedNodeId) {
+	console.log("hey");
 	// iterate through subnodeArray
 	subnodeArray.forEach((subnode) => {
 		// return, if node is already on the network
-
+		console.log(nodes.get(clickedNodeId).parentNode);
 		// make a node for each article in subnodeArray
 		nodes.add({
 			id: subnode.id + "-" + clickedNodeId,
 			label: subnode.label,
+			pathlabel: subnode.label,
 			group: "source2",
 			selfNodeId: subnode.id,
 			parentNode: clickedNodeId,
 			color: "#FFFFFF",
+			path: nodes.get(clickedNodeId).path + " - " + subnode.label,
+
+			/*path: nodes.get(clickedNodeId).parentNode
+				? nodes.get(clickedNodeId).parentNode.pathlabel
+				: null + " - " + nodes.get(clickedNodeId).pathlabel,*/
 		}),
 			// make an edge from the clicked node to its subnodes
 			edges.add({
@@ -441,7 +475,7 @@ function updateContextArea(nodeId) {
 	let div2 = document.createElement("div");
 	div2.classList.add("context-head");
 	contextHead.appendChild(div2);
-	div2.innerHTML = nodeId;
+	div2.innerHTML = nodes.get(nodeId).path;
 }
 
 function initMap(nodesArray, edgesArray) {
@@ -612,7 +646,6 @@ function showNumberOfArticlesOnSubnode(nodeId) {
 		if (!nodes.get(subnodeId).parentNode) {
 			return;
 		}
-		console.log(nodes.get(subnodeId));
 		let numberOfArticles = filterArticles(subnodeId).length;
 		nodes.update({
 			id: subnodeId,
