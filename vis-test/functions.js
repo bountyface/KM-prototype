@@ -360,7 +360,7 @@ function filterArticles(nodeId) {
 
 	// - self
 	if (!node.parentNode) {
-		console.log("ich bin level 1");
+		//console.log("ich bin level 1");
 
 		switch (mapStartingPoint) {
 			case gd_goal:
@@ -377,7 +377,7 @@ function filterArticles(nodeId) {
 	}
 	// - self and parent
 	if (node.parentNode && !nodes.get(node.parentNode).parentNode) {
-		console.log("ich bin level 2");
+		//console.log("ich bin level 2");
 
 		switch (mapStartingPoint) {
 			case gd_goal:
@@ -396,7 +396,7 @@ function filterArticles(nodeId) {
 	}
 	// - self, parent and grandparentnode
 	if (node.parentNode && nodes.get(node.parentNode).parentNode) {
-		console.log("ich bin level 3");
+		//console.log("ich bin level 3");
 
 		switch (mapStartingPoint) {
 			case gd_goal:
@@ -596,16 +596,20 @@ function createTestArticles() {
 
 function showNumberOfArticlesOnSubnode(nodeId) {
 	let subnodes = network.getConnectedNodes(nodeId);
-	console.log(subnodes);
+	//console.log(subnodes);
 
 	subnodes.forEach((subnodeId) => {
+		if (!subnodeId) return;
 		if (subnodeId === "mainNode:middle") return;
-		if (!nodes.get(subnodeId).parentNode == subnodeId) {
-			let numberOfArticles = filterArticles(subnodeId).length;
-			nodes.update({
-				id: subnodeId,
-				label: nodes.get(subnodeId).label + "\n[" + numberOfArticles + "]",
-			});
+		// fix doubled numbers on parentNode
+		if (!nodes.get(subnodeId).parentNode) {
+			return;
 		}
+		console.log(nodes.get(subnodeId));
+		let numberOfArticles = filterArticles(subnodeId).length;
+		nodes.update({
+			id: subnodeId,
+			label: nodes.get(subnodeId).label + "\n[" + numberOfArticles + "]",
+		});
 	});
 }
