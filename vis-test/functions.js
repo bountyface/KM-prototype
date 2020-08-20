@@ -66,7 +66,7 @@ function createMapStartingPoint(label, array) {
 
 		nodes.update({
 			id: element.id,
-			label: element.label + "\n[" + numberOfArticles + "]",
+			label: element.label + "\n(" + numberOfArticles + ")",
 		});
 	});
 }
@@ -97,7 +97,7 @@ function growParentEdgeOfNode(nodeId) {
 		id: edgeId[0],
 		from: parentNode,
 		to: nodeId,
-		length: edgeLengthExpanded,
+		//length: edgeLengthExpanded,
 		physics: true,
 		fixed: {
 			x: false,
@@ -113,8 +113,8 @@ function growParentEdgeOfNode(nodeId) {
 			y: false,
 		},
 	});
-
 	network.focus(nodeId, { animation: true });
+
 	// todo:    get the focus on node also when animation is finished
 	//          problem:  focus stops earlier than animation has finished
 	/*network.on("animationFinished", () => {
@@ -426,8 +426,10 @@ function updateContextArea(nodeId) {
 	let filteredArticles = filterArticles(nodeId);
 
 	const contextArea = document.getElementById("context-area");
+	const contextHead = document.getElementById("context-head");
 
 	contextArea.innerHTML = "";
+	contextHead.innerHTML = "";
 	// for every article, create a list entry in the context area
 	filteredArticles.forEach((article) => {
 		let div = document.createElement("div");
@@ -435,6 +437,11 @@ function updateContextArea(nodeId) {
 		contextArea.appendChild(div);
 		div.innerHTML += article.title;
 	});
+
+	let div2 = document.createElement("div");
+	div2.classList.add("context-head");
+	contextHead.appendChild(div2);
+	div2.innerHTML = nodeId;
 }
 
 function initMap(nodesArray, edgesArray) {
@@ -609,7 +616,7 @@ function showNumberOfArticlesOnSubnode(nodeId) {
 		let numberOfArticles = filterArticles(subnodeId).length;
 		nodes.update({
 			id: subnodeId,
-			label: nodes.get(subnodeId).label + "\n[" + numberOfArticles + "]",
+			label: nodes.get(subnodeId).label + "\n(" + numberOfArticles + ")",
 		});
 	});
 }
