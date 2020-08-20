@@ -170,26 +170,13 @@ function expandNode(clickedNodeId) {
 				console.log(nodes.get(clickedNodeId));
 			}
 
+			// clicked on content_type?
 			if (content_typeArray.find((element) => element.id === node.selfNodeId)) {
-				console.log("clicked on content_type");
-
-				let grandparentPathLabel = nodes.get(
-					nodes.get(nodes.get(clickedNodeId).parentNode).parentNode
-				).pathlabel;
-				let parentPathLabel = nodes.get(nodes.get(clickedNodeId).parentNode)
-					.pathlabel;
 				let selfPathLabel = nodes.get(clickedNodeId).pathlabel;
-
 				nodes.update({
 					id: clickedNodeId,
-					path:
-						grandparentPathLabel +
-						" - " +
-						parentPathLabel +
-						" - " +
-						selfPathLabel,
+					path: nodes.get(clickedNodeId).path,
 				});
-				console.log(nodes.get(clickedNodeId));
 			}
 			break;
 
@@ -283,10 +270,6 @@ function applySubnodeArrayToNetwork(subnodeArray, clickedNodeId) {
 			parentNode: clickedNodeId,
 			color: "#FFFFFF",
 			path: nodes.get(clickedNodeId).path + " - " + subnode.label,
-
-			/*path: nodes.get(clickedNodeId).parentNode
-				? nodes.get(clickedNodeId).parentNode.pathlabel
-				: null + " - " + nodes.get(clickedNodeId).pathlabel,*/
 		}),
 			// make an edge from the clicked node to its subnodes
 			edges.add({
