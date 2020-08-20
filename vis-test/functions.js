@@ -484,7 +484,7 @@ function initMap(nodesArray, edgesArray) {
 				},
 			},
 			shape: "circle",
-			widthConstraint: 90,
+			widthConstraint: 100,
 		},
 		edges: {
 			width: 2,
