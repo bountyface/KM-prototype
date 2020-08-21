@@ -157,7 +157,6 @@ function expandNode(clickedNodeId) {
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 				showNumberOfArticlesOnSubnode(clickedNodeId);
-				console.log(nodes.get(clickedNodeId));
 			}
 
 			// clicked on section?
@@ -167,7 +166,6 @@ function expandNode(clickedNodeId) {
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
 				showNumberOfArticlesOnSubnode(clickedNodeId);
-				console.log(nodes.get(clickedNodeId));
 			}
 
 			// clicked on content_type?
@@ -187,6 +185,7 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(field);
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
 			}
 			// clicked on field?
 			if (fieldArray.find((field) => field.id === node.selfNodeId)) {
@@ -194,6 +193,16 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(section);
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
+			}
+
+			// clicked on section?
+			if (sectionArray.find((element) => element.id === node.selfNodeId)) {
+				let selfPathLabel = nodes.get(clickedNodeId).pathlabel;
+				nodes.update({
+					id: clickedNodeId,
+					path: nodes.get(clickedNodeId).path,
+				});
 			}
 			break;
 
@@ -204,6 +213,7 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(section);
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
 			}
 
 			// clicked on section?
@@ -212,6 +222,16 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(content_type);
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
+			}
+
+			// clicked on content_type?
+			if (content_typeArray.find((element) => element.id === node.selfNodeId)) {
+				let selfPathLabel = nodes.get(clickedNodeId).pathlabel;
+				nodes.update({
+					id: clickedNodeId,
+					path: nodes.get(clickedNodeId).path,
+				});
 			}
 			break;
 
@@ -221,6 +241,8 @@ function expandNode(clickedNodeId) {
 				fieldArray.forEach((field) => {
 					subnodeArray.push(field);
 				});
+				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
 			}
 			// clicked on field?
 			if (fieldArray.find((section) => section.id === node.selfNodeId)) {
@@ -228,8 +250,16 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(outcome);
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
 			}
-
+			// clicked on content_type?
+			if (outcomeArray.find((element) => element.id === node.selfNodeId)) {
+				let selfPathLabel = nodes.get(clickedNodeId).pathlabel;
+				nodes.update({
+					id: clickedNodeId,
+					path: nodes.get(clickedNodeId).path,
+				});
+			}
 			break;
 
 		case content_type:
@@ -255,7 +285,6 @@ function expandNode(clickedNodeId) {
 }
 
 function applySubnodeArrayToNetwork(subnodeArray, clickedNodeId) {
-	console.log("hey");
 	// iterate through subnodeArray
 	subnodeArray.forEach((subnode) => {
 		// return, if node is already on the network
@@ -387,7 +416,27 @@ function filterArticles(nodeId) {
 					);
 				}
 				break;
+			case outcome:
+				if (outcomeArray.find((outcome) => outcome.id === nodeId)) {
+					filteredArticles = articlesArray.filter(
+						(article) => article.outcome === nodeId
+					);
+				}
 
+			case field:
+				if (fieldArray.find((field) => field.id === nodeId)) {
+					filteredArticles = articlesArray.filter(
+						(article) => article.field === nodeId
+					);
+				}
+				break;
+			case section:
+				if (sectionArray.find((section) => section.id === nodeId)) {
+					filteredArticles = articlesArray.filter(
+						(article) => article.section === nodeId
+					);
+				}
+				break;
 			default:
 				break;
 		}
@@ -395,6 +444,7 @@ function filterArticles(nodeId) {
 	// - self and parent
 	if (node.parentNode && !nodes.get(node.parentNode).parentNode) {
 		//console.log("ich bin level 2");
+		console.log("hi");
 
 		switch (mapStartingPoint) {
 			case gd_goal:
@@ -404,9 +454,38 @@ function filterArticles(nodeId) {
 							article.gd_goal === node.parentNode &&
 							article.section === node.selfNodeId
 					);
+					console.log(filteredArticles);
+				}
+				break;
+			case outcome:
+				if (fieldArray.find((field) => field.id === node.selfNodeId)) {
+					filteredArticles = articlesArray.filter((article) => {
+						return (
+							article.outcome === node.parentNode &&
+							article.field === node.selfNodeId
+						);
+					});
+				}
+				break;
+			case field:
+				if (sectionArray.find((section) => section.id === node.selfNodeId)) {
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.field === node.parentNode &&
+							article.section === node.selfNodeId
+					);
 				}
 				break;
 
+			case section:
+				if (fieldArray.find((field) => field.id === node.selfNodeId)) {
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.section === node.parentNode &&
+							article.field === node.selfNodeId
+					);
+				}
+				break;
 			default:
 				break;
 		}
@@ -432,11 +511,38 @@ function filterArticles(nodeId) {
 					);
 				}
 				break;
-
+			case outcome:
+				if (sectionArray.find((section) => section.id === node.selfNodeId)) {
+					let parent = nodes.get(nodes.get(nodeId).parentNode).selfNodeId;
+					let grandParent = nodes.get(nodes.get(nodeId).parentNode).parentNode;
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.outcome === grandParent &&
+							article.field === parent &&
+							article.section === node.selfNodeId
+					);
+				}
+				break;
+			case field:
+				if (
+					content_typeArray.find(
+						(content_type) => content_type.id === node.selfNodeId
+					)
+				) {
+					let parent = nodes.get(nodes.get(nodeId).parentNode).selfNodeId;
+					let grandParent = nodes.get(nodes.get(nodeId).parentNode).parentNode;
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.field === grandParent &&
+							article.section === parent &&
+							article.content_type === node.selfNodeId
+					);
+				}
 			default:
 				break;
 		}
 	}
+	console.log(filteredArticles);
 	return filteredArticles;
 }
 function updateContextArea(nodeId) {
@@ -583,7 +689,7 @@ function initMap(nodesArray, edgesArray) {
 function createTestArticles() {
 	const numberOfArticles = 477;
 	gd_goal_index = 0;
-	outcome_index = 0;
+	outcome_index = 2;
 	field_index = 0;
 	section_index = 0;
 	content_type_index = 0;
