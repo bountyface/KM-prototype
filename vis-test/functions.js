@@ -299,7 +299,6 @@ function applySubnodeArrayToNetwork(subnodeArray, clickedNodeId) {
 	// iterate through subnodeArray
 	subnodeArray.forEach((subnode) => {
 		// return, if node is already on the network
-		console.log(nodes.get(clickedNodeId).parentNode);
 		// make a node for each article in subnodeArray
 		nodes.add({
 			id: subnode.id + "-" + clickedNodeId,
@@ -321,7 +320,7 @@ function applySubnodeArrayToNetwork(subnodeArray, clickedNodeId) {
 
 function collapseNode(nodeId) {
 	if (nodeId === "mainNode:middle") return;
-	//console.log(nodes.get());
+
 	const edgeId = network.getConnectedEdges(nodeId);
 
 	// getConnectedNodes only returns an array of the connected nodes on the first call
@@ -465,7 +464,6 @@ function filterArticles(nodeId) {
 	// - self and parent
 	if (node.parentNode && !nodes.get(node.parentNode).parentNode) {
 		//console.log("ich bin level 2");
-		console.log("hi");
 
 		switch (mapStartingPoint) {
 			case gd_goal:
@@ -475,7 +473,6 @@ function filterArticles(nodeId) {
 							article.gd_goal === node.parentNode &&
 							article.section === node.selfNodeId
 					);
-					console.log(filteredArticles);
 				}
 				break;
 			case outcome:
@@ -598,7 +595,7 @@ function filterArticles(nodeId) {
 				break;
 		}
 	}
-	console.log(filteredArticles);
+
 	return filteredArticles;
 }
 function updateContextArea(nodeId) {
@@ -773,13 +770,10 @@ function createTestArticles() {
 		if (content_type_index > 5) content_type_index = 0;
 		*/
 	}
-
-	console.log(articlesArray);
 }
 
 function showNumberOfArticlesOnSubnode(nodeId) {
 	let subnodes = network.getConnectedNodes(nodeId);
-	//console.log(subnodes);
 
 	subnodes.forEach((subnodeId) => {
 		if (!subnodeId) return;
