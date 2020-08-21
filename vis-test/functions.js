@@ -271,6 +271,7 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(field);
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
 			}
 
 			// clicked on field?
@@ -279,6 +280,16 @@ function expandNode(clickedNodeId) {
 					subnodeArray.push(section);
 				});
 				applySubnodeArrayToNetwork(subnodeArray, clickedNodeId);
+				showNumberOfArticlesOnSubnode(clickedNodeId);
+			}
+
+			// clicked on section?
+			if (sectionArray.find((element) => element.id === node.selfNodeId)) {
+				let selfPathLabel = nodes.get(clickedNodeId).pathlabel;
+				nodes.update({
+					id: clickedNodeId,
+					path: nodes.get(clickedNodeId).path,
+				});
 			}
 			break;
 	}
@@ -437,6 +448,16 @@ function filterArticles(nodeId) {
 					);
 				}
 				break;
+
+			case content_type:
+				if (
+					content_typeArray.find((content_type) => content_type.id === nodeId)
+				) {
+					filteredArticles = articlesArray.filter(
+						(article) => article.content_type === nodeId
+					);
+				}
+				break;
 			default:
 				break;
 		}
@@ -482,6 +503,15 @@ function filterArticles(nodeId) {
 					filteredArticles = articlesArray.filter(
 						(article) =>
 							article.section === node.parentNode &&
+							article.field === node.selfNodeId
+					);
+				}
+				break;
+			case content_type:
+				if (fieldArray.find((field) => field.id === node.selfNodeId)) {
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.content_type === node.parentNode &&
 							article.field === node.selfNodeId
 					);
 				}
@@ -538,6 +568,32 @@ function filterArticles(nodeId) {
 							article.content_type === node.selfNodeId
 					);
 				}
+				break;
+			case section:
+				if (outcomeArray.find((outcome) => outcome.id === node.selfNodeId)) {
+					let parent = nodes.get(nodes.get(nodeId).parentNode).selfNodeId;
+					let grandParent = nodes.get(nodes.get(nodeId).parentNode).parentNode;
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.section === grandParent &&
+							article.field === parent &&
+							article.outcome === node.selfNodeId
+					);
+				}
+				break;
+
+			case content_type:
+				if (sectionArray.find((section) => section.id === node.selfNodeId)) {
+					let parent = nodes.get(nodes.get(nodeId).parentNode).selfNodeId;
+					let grandParent = nodes.get(nodes.get(nodeId).parentNode).parentNode;
+					filteredArticles = articlesArray.filter(
+						(article) =>
+							article.content_type === grandParent &&
+							article.field === parent &&
+							article.section === node.selfNodeId
+					);
+				}
+				break;
 			default:
 				break;
 		}
