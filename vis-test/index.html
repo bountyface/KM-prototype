@@ -40,7 +40,8 @@
 			}
 
 			.radiocontainer {
-				display: block;
+				display: flex;
+				flex-direction: row;
 				position: relative;
 				padding-left: 35px;
 				margin-bottom: 12px;
@@ -114,6 +115,7 @@
 				display: inline-block;
 				font-size: 16px;
 				margin-bottom: 12px;
+				margin-top: 2px;
 				cursor: pointer;
 				font-family: Arial, Helvetica, sans-serif;
 			}
@@ -159,8 +161,7 @@
 				justify-content: center;
 				align-items: center;
 			}
-			.context-head-element {
-			}
+
 			.context-area {
 				overflow: scroll;
 				height: 95vh;
@@ -182,6 +183,24 @@
 				background-color: rgb(84, 123, 207);
 				transform: translateY(1px);
 			}
+			.tooltip {
+				margin-left: 3px;
+				font-size: 14px;
+				color: rgba(50, 77, 137, 1);
+			}
+			.tooltip .gd_goal_tooltip_text {
+				visibility: hidden;
+				z-index: 1;
+			}
+
+			.tooltip .gd_goal_tooltip_text::after {
+				content: "";
+			}
+
+			.tooltip:hover .gd_goal_tooltip_text {
+				visibility: visible;
+				opacity: 1;
+			}
 		</style>
 	</head>
 	<body>
@@ -195,6 +214,10 @@
 				<div class="radios">
 					<label class="radiocontainer">
 						Gender & Diversity Goal
+						<div class="tooltip">
+							&#9432;
+							<span class="gd_goal_tooltip_text">Hier steht die Info</span>
+						</div>
 						<input type="radio" name="startingpoint" id="gd_goal_radio" />
 
 						<span class="checkmark"></span>
