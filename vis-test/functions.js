@@ -1,5 +1,5 @@
 // init nodes
-function createNodesArray() {
+function createKnowledgeMap() {
 	// center node
 
 	// creates nodesArray according to selected mapStartingPoint and delivers
@@ -742,7 +742,11 @@ function initMap(nodesArray, edgesArray) {
 function createTestArticles() {
 	const numberOfArticles = 477;
 
-	for (let index = 6; index < numberOfArticles + 1; index++) {
+	for (
+		let index = articlesArray.length + 1;
+		index < numberOfArticles + 1;
+		index++
+	) {
 		gd_goal_index = Math.floor(Math.random() * 5);
 		outcome_index = Math.floor(Math.random() * 3);
 		field_index = Math.floor(Math.random() * 3);
@@ -760,15 +764,6 @@ function createTestArticles() {
 			content_type: content_typeArray[content_type_index].id,
 		};
 		articlesArray.push(article);
-
-		/*
-		// if index goes bigger than the arraylength of i.e. gd_goalArray, reset to 0 and iterate again
-		if (gd_goal_index > 4) gd_goal_index = 0;
-		if (outcome_index > 2) outcome_index = 0;
-		if (field_index > 2) field_index = 0;
-		if (section_index > 6) section_index = 0;
-		if (content_type_index > 5) content_type_index = 0;
-		*/
 	}
 }
 

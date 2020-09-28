@@ -7,27 +7,27 @@ submitButton.addEventListener("click", () => {
 	if (document.getElementById("gd_goal_radio").checked === true) {
 		console.log("gd_goal checked");
 		mapStartingPoint = gd_goal;
-		createNodesArray();
+		createKnowledgeMap();
 	}
 	if (document.getElementById("outcome_radio").checked === true) {
 		console.log("outcome checked");
 		mapStartingPoint = outcome;
-		createNodesArray();
+		createKnowledgeMap();
 	}
 	if (document.getElementById("field_radio").checked === true) {
 		console.log("field checked");
 		mapStartingPoint = field;
-		createNodesArray();
+		createKnowledgeMap();
 	}
 	if (document.getElementById("section_radio").checked === true) {
 		console.log("section checked");
 		mapStartingPoint = section;
-		createNodesArray();
+		createKnowledgeMap();
 	}
 	if (document.getElementById("content_type_radio").checked === true) {
 		console.log("content_type checked");
 		mapStartingPoint = content_type;
-		createNodesArray();
+		createKnowledgeMap();
 	}
 });
 /*

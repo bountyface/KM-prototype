@@ -29,6 +29,8 @@
 				font-size: 18px;
 				padding: 8px 16px;
 				margin-bottom: 6px;
+				display: flex;
+				flex-direction: row;
 			}
 
 			.radios {
@@ -220,11 +222,24 @@
 		/>
 		<div class="container">
 			<div class="div-head">
-				<div class="headline" title="wow">Starting Point</div>
+				<div class="headline" title="wow">
+					Starting Point
+					<div
+						class="tooltip"
+						title="Mit der folgenden Auswahl haben Sie die Möglichkeit verschiedene Startpunkte für Ihre Suche in der Knowledge Map zu definieren. Diese Option unterstützt Sie vor allem dann, wenn Sie bereits ein konkretes Erkenntnisinteresse haben und wissen wonach Sie suchen. Wenn Sie sich einfach nur einen Überblick über die enthaltenen Elemente verschaffen wollen, starten Sie am besten mit der Auswahl Field."
+					>
+						&#9432;
+					</div>
+				</div>
 				<div class="radios">
 					<label class="radiocontainer">
 						Gender & Diversity Goal
-						<div class="tooltip" title="wow">&#9432;</div>
+						<div
+							class="tooltip"
+							title="Startpunkt sind die Ziele, die von bestimmten Maßnahmen/Aktivitäten im Mobilitätsbereich verfolgt werden, wenn es darum geht Gender- und Diversity-Aspekte zu fördern und zu verankern."
+						>
+							&#9432;
+						</div>
 						<input type="radio" name="startingpoint" id="gd_goal_radio" />
 
 						<span class="checkmark"></span>
@@ -232,24 +247,48 @@
 
 					<label class="radiocontainer"
 						>Outcome
+						<div
+							class="tooltip"
+							title="Startpunkt sind die Kategorien zur Beschreibung der „Endprodukte“, die aus der Umsetzung bestimmter Gender und Diversity sensibler Maßnahmen/Aktivitäten resultieren. Dies können entweder Produkte, Prozesse oder Services sein."
+						>
+							&#9432;
+						</div>
 						<input type="radio" name="startingpoint" id="outcome_radio" />
 						<span class="checkmark"></span>
 					</label>
 
 					<label class="radiocontainer"
 						>Field
+						<div
+							class="tooltip"
+							title="Startpunkt sind die Mobilitätsbereiche in denen bestimmte Maßnahmen umgesetzt wurden - Individualverkehr, Öffentlicher Verkehr und Shared Mobility."
+						>
+							&#9432;
+						</div>
 						<input type="radio" name="startingpoint" id="field_radio" />
 						<span class="checkmark"></span>
 					</label>
 
 					<label class="radiocontainer"
 						>Section
+						<div
+							class="tooltip"
+							title="Startpunkt sind die konkreten Handlungsbereiche, in denen Gender und Diversity sensible Aktivitäten/Maßnahmen durchgeführt werden."
+						>
+							&#9432;
+						</div>
 						<input type="radio" name="startingpoint" id="section_radio" />
 						<span class="checkmark"></span>
 					</label>
 
 					<label class="radiocontainer"
 						>Content-Type
+						<div
+							class="tooltip"
+							title="Startpunkt sind Kategorien, die die Form der verfügbaren Wissenselemente beschreiben. Dies können Ergebnisse von bestimmten Aktivitäten sein (z.B. Guidelines, Verordnungen) oder Kriterien die den Kontext beschreiben, in dem etwas entstanden ist (z.B. Projekt oder Kampagne)."
+						>
+							&#9432;
+						</div>
 						<input type="radio" name="startingpoint" id="content_type_radio" />
 						<span class="checkmark"></span>
 					</label>

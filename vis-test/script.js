@@ -7,7 +7,7 @@ const outcome = "outcome";
 const field = "field";
 const section = "section";
 const content_type = "content_type";
-let mapStartingPoint = gd_goal;
+let mapStartingPoint = field;
 
 const edgeLength = 100;
 const edgeLengthExpanded = 150;
@@ -18,14 +18,14 @@ let edges;
 let network;
 
 // radiobutton categories activated by default
-document.getElementById("gd_goal_radio").checked = true;
+document.getElementById("field_radio").checked = true;
 
 createTestArticles();
 
 // init the first view
 
-//create nodesArray from data
-createNodesArray();
+//create Knowledge Map from data
+createKnowledgeMap();
 
 // Interaction
 
