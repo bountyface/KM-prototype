@@ -137,16 +137,10 @@ function expandNode(clickedNodeId) {
 
 	// make edge to parent of selected node longer
 	growParentEdgeOfNode(clickedNodeId);
-	let clickedOnRegion = false;
-	// temporary Array
+	
 	let subnodeArray = [];
-	// assign group of subnode to right value according to node clicked
-	let groupForSubnode = "";
 
-	// find parent of node
-	const edgeId = network.getConnectedEdges(clickedNodeId);
-	// getConnectedNodes only returns an array of the connected nodes on the first call
-	const parentNode = network.getConnectedNodes(edgeId)[0];
+	// assign group of subnode to right value according to node clicked
 
 	switch (mapStartingPoint) {
 		case gd_goal:
@@ -170,7 +164,6 @@ function expandNode(clickedNodeId) {
 
 			// clicked on content_type?
 			if (content_typeArray.find((element) => element.id === node.selfNodeId)) {
-				let selfPathLabel = nodes.get(clickedNodeId).pathlabel;
 				nodes.update({
 					id: clickedNodeId,
 					path: nodes.get(clickedNodeId).path,
@@ -325,7 +318,6 @@ function collapseNode(nodeId) {
 
 	// getConnectedNodes only returns an array of the connected nodes on the first call
 	const parentNode = network.getConnectedNodes(edgeId)[0];
-	//console.log("parentNode - sometimes undefined?!", parentNode);
 
 	edges.update({
 		id: edgeId[0],
@@ -346,7 +338,7 @@ function collapseNode(nodeId) {
 		expanded: false,
 	});
 
-	// todo: destroy all the other edges and nodes and their children, except mainEdge
+	// destroy all the other edges and nodes and their children, except mainEdge
 	nodesToBeRemoved = [];
 	edgesToBeRemoved = [];
 	nodes.get().forEach((node) => {
@@ -463,8 +455,6 @@ function filterArticles(nodeId) {
 	}
 	// - self and parent
 	if (node.parentNode && !nodes.get(node.parentNode).parentNode) {
-		//console.log("ich bin level 2");
-
 		switch (mapStartingPoint) {
 			case gd_goal:
 				if (sectionArray.find((section) => section.id === node.selfNodeId)) {
@@ -519,8 +509,6 @@ function filterArticles(nodeId) {
 	}
 	// - self, parent and grandparentnode
 	if (node.parentNode && nodes.get(node.parentNode).parentNode) {
-		//console.log("ich bin level 3");
-
 		switch (mapStartingPoint) {
 			case gd_goal:
 				if (
@@ -645,9 +633,8 @@ function initMap(nodesArray, edgesArray) {
 
 		nodes: {
 			chosen: {
-				node: (values, id, selected, hovering) => {
+				node: (values) => {
 					values.color = selectColor;
-					//nodes.get(id).parentNode.color = selectEdgeColor;
 				},
 				label: false,
 			},
@@ -741,7 +728,6 @@ function initMap(nodesArray, edgesArray) {
 
 function createTestArticles() {
 	const numberOfArticles = 477;
-
 	for (
 		let index = articlesArray.length + 1;
 		index < numberOfArticles + 1;
